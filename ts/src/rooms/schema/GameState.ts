@@ -8,8 +8,6 @@ import { DestCard } from "./DestCard";
 export class GameState extends Schema {
   
 
-  @type("string") mySynchronizedProperty: string = "Hello world";
-  @type([ "string" ]) messages = new ArraySchema<string>();
   @type([ Player ]) players = new ArraySchema<Player>();
   @type([ TrainCard ]) trainCardDeck = this.shuffleArray(trainCards);
   @type([ DestCard ]) destCardDeck = this.shuffleArray(destCards);
