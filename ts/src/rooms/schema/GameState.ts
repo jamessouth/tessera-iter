@@ -10,6 +10,7 @@ export class GameState extends Schema {
 
   @type([ Player ]) players = new ArraySchema<Player>();
   @type([ TrainCard ]) trainCardDeck = this.shuffleArray(trainCards);
+  @type([ TrainCard ]) trainCardDiscards = [];
   @type([ DestCard ]) destCardDeck = this.shuffleArray(destCards);
   
   //Method from ChatGPT using prompt "Shuffle an array of objects"
@@ -29,4 +30,4 @@ export class GameState extends Schema {
     return shuffledArray;
 }
 }
-export {Player};
+// export {Player};

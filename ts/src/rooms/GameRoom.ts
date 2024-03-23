@@ -7,6 +7,7 @@ import { TrainCard } from "./schema/TrainCard";
 
 export class GameRoom extends Room<GameState> {
   maxClients = 5;
+  initialTrainCards = 4;
 
   onCreate (options: any) {
 
@@ -30,14 +31,12 @@ export class GameRoom extends Room<GameState> {
       if (player === undefined) {return;}
       
 
-      if(player.canDrawTrainCard) {
-        player.dealCard(this.state.trainCardDeck, 1);
+      
+    player.drawTrainCard(this.state.trainCardDeck);
 
-      } else {
-        return;
-      }
+     
 
-    })
+    });
 
     //incomplete
     this.onMessage("drawTrainCardFromField", (client, message) => {
@@ -58,11 +57,18 @@ export class GameRoom extends Room<GameState> {
   onJoin (client: Client, options: any) {
     let p1:Player = new Player();
     p1.name = "Phil";
-    this.state.players.push(p1);
+    
     
     p1.sessionId = client.sessionId;
     console.log(p1.sessionId, "joined!");
-    p1.dealCard(this.state.trainCardDeck, 4)
+
+    for (let i = 0; i < this.initialTrainCards; i++) {
+        p1.drawTrainCard(this.state.trainCardDeck);
+    }
+    
+    p1.isTurn = false;
+    p1.trainCardsLeftToDrawThisTurn = 2;
+    this.state.players.push(p1);
   }
 
   onLeave (client: Client, consented: boolean) {
