@@ -3,12 +3,12 @@ import { config } from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import cors from "cors";
+// ...previous imports
 import Pusher from "pusher";
 import { dummyUsers, parseCookies } from "../frontend/utils.js";
 
 
 config();
-
 
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
@@ -29,7 +29,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "frontend")));
-
 // ...app.use statements
 
 app.post("/pusher/auth", (req, res) => {
@@ -51,8 +50,6 @@ app.post("/pusher/auth", (req, res) => {
   
   // ...rest of code
   
-
-
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "..", "frontend/index.html"));
 });

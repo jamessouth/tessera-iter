@@ -32,19 +32,19 @@ loginForm.addEventListener("submit", async (event) => {
   document.querySelector("#chat-area").style.display = "flex";
   
 // ...code continues below
-  // ...continues from above
-  const pusherClient = await getPusherClient();
+// ...continues from above
+const pusherClient = await getPusherClient();
 
-  channel = pusherClient.subscribe("private-chat-channel");
-  channel.bind("client-chat-event", (data) => {
-    if (data) {
-      renderMessage({
-        query: ".messages",
-        message: typeof data === "string" ? data : data?.message,
-        className: "message",
-      });
-    }
-  });
+channel = pusherClient.subscribe("private-chat-channel");
+channel.bind("chat-event", (data) => {
+  if (data) {
+    renderMessage({
+      query: ".messages",
+      message: typeof data === "string" ? data : data?.message,
+      className: "message",
+    });
+  }
+});
 });
 
 // ...code continues below
@@ -57,7 +57,7 @@ messageForm.addEventListener("submit", async (event) => {
   const input = document.querySelector("#message");
   const message = input.value;
 
-  await channel.trigger("client-chat-event", {
+  await channel.trigger("chat-event", {
     message,
   });
 
@@ -69,9 +69,3 @@ messageForm.addEventListener("submit", async (event) => {
 
   input.value = "";
 });
-
-
-
-
-
-
