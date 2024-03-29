@@ -3,14 +3,15 @@
   "version": "1.2.0",
   "description": "A basic starter for an express.js API",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "start": "node src/index.js",
+    "dev": "nodemon src/back/index.js",
+    "start": "node src/back/index.js",
     "lint": "eslint --fix src",
     "test": "jest"
   },
   "keywords": [],
-  "author": "CJ R. <cj@null.computer> (https://w3cj.now.sh)",
+  "author": "james south",
   "repository": {
     "type": "git",
     "url": "https://github.com/w3cj/express-api-starter.git"

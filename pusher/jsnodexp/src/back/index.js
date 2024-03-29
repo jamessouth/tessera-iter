@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
-import * as Pusher from 'pusher';
+import Pusher from 'pusher';
 
 // const morgan = require('morgan');
 // const helmet = require('helmet');
@@ -62,7 +62,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
+app.use(express.static(path.join(__dirname, '..', 'front')));
 
 // app.get('/', (req, res) => {
 //   res.json({
