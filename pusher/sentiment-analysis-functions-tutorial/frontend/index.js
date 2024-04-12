@@ -34,9 +34,10 @@ loginForm.addEventListener("submit", async (event) => {
 // ...code continues below
 // ...continues from above
 const pusherClient = await getPusherClient();
+console.log(pusherClient);
 
 channel = pusherClient.subscribe("private-chat-channel");
-channel.bind("chat-event", (data) => {
+channel.bind("client-chat-event", (data) => {
   if (data) {
     renderMessage({
       query: ".messages",
@@ -57,7 +58,7 @@ messageForm.addEventListener("submit", async (event) => {
   const input = document.querySelector("#message");
   const message = input.value;
 
-  await channel.trigger("chat-event", {
+  await channel.trigger("client-chat-event", {
     message,
   });
 

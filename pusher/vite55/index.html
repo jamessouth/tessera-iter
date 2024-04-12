@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div class="container">
+        <h2>
+            Pusher Chat
+            <p id="username-display"></p>
+        </h2>
+    
+        <form id="login-form">
+            <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Username"
+            autofocus
+            />
+            <button id="login" type="submit">Login</button>
+        </form>
+    
+        <div id="chat-area" style="display: none">
+            <div class="messages"></div>
+    
+            <form id="message-form">
+            <textarea
+                name="message"
+                id="message"
+                placeholder="Message"
+                autofocus
+            ></textarea>
+            <button id="submit" type="submit">Send</button>
+            </form>
+        </div>
+        </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

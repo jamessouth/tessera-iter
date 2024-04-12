@@ -1,3 +1,5 @@
+
+
 import Pusher from 'pusher-js';
 
 function setCookie({ name, value, expiryInDays }) {
@@ -18,9 +20,7 @@ function renderMessage({ query, message, className }) {
   container.appendChild(eventElement);
   eventElement.scrollIntoView();
 }
-const pusher = new Pusher('aab0494ac1e7c4890e70', {
-  cluster: 'us2',
-});
+
 
 let channel;
 
@@ -48,7 +48,10 @@ loginForm.addEventListener('submit', async (event) => {
   // ...code continues below
   // ...continues from above
   //   const pusherClient = await getPusherClient();
-
+  const pusher = new Pusher('aab0494ac1e7c4890e70', {
+    cluster: 'us2',
+  });
+  console.log(pusher);
   channel = pusher.subscribe('private-chat-channel');
   channel.bind('client-chat-event', (data) => {
     if (data) {
@@ -80,3 +83,4 @@ messageForm.addEventListener('submit', async (event) => {
 
   input.value = '';
 });
+
