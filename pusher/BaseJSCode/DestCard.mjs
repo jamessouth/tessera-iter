@@ -7,4 +7,8 @@ export default class DestCard {
     this.route = route;
     this.points = points;
   }
+
+  toString() {
+    return route + " route, value " + points
+  }
 }
