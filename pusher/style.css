@@ -8,7 +8,7 @@ body {
   }
   
   .container {
-    min-height: 600px;
+    /* min-height: 600px; */
     max-width: 600px;
     width: 100%;
     margin: 5% auto;
