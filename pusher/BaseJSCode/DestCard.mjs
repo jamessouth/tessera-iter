@@ -1,11 +1,12 @@
 
-export class DestCard extends Schema {
+export default class DestCard {
   route;
   points;
 
   constructor(route, points) {
-    super();
     this.route = route;
     this.points = points;
   }
 }
+
+// module.exports = DestCard;

@@ -1,5 +1,5 @@
 
-export class Route {
+export default class Route {
   isSmallGame = true;
   name = "";
   points = 0;
@@ -15,3 +15,5 @@ export class Route {
     this.color2 = color2;
   }
 }
+
+module.exports = Route

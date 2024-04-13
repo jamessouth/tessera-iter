@@ -1,8 +1,7 @@
-import { ArraySchema, Schema, Context, type } from "@colyseus/schema";
-import { DestCard } from "./DestCard";
-import { TrainCard } from "./TrainCard";
+// import { DestCard } from "./DestCard";
+// import { TrainCard } from "./TrainCard";
 
-export class Player extends Schema {
+export default class Player {
   name = "";
   numTrains = 45;
   score = 0;
@@ -64,3 +63,5 @@ export class Player extends Schema {
   //     this.trainCardsLeftToDrawThisTurn -= 1;
   //   }
 }
+
+module.exports = Player

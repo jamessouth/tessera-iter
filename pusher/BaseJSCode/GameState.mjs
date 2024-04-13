@@ -4,14 +4,18 @@
 // import { destCards } from "../data/destCard/destCards";
 // import { DestCard } from "./DestCard";
 
-class GameState {
+export default class GameState {
   players = new Array();
 
   trainCardDeck = new Array();
   
   trainCardDiscards = new Array();
   trainCardFaceUpDeck = new Array();
-  destCardDeck = this.shuffleArray(destCards);
+  //destCardDeck = this.shuffleArray(destCards);
+
+  constructor(numPlayers) {
+    this.players.length = numPlayers;
+  }
 
   //Method from ChatGPT using prompt "Shuffle an array of objects", manually converted to JS
   shuffleArray(array) {
@@ -37,5 +41,5 @@ class GameState {
   
 }
 
-module.exports = GameState
+// module.exports = GameState
 // export {Player};
