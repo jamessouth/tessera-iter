@@ -10,6 +10,7 @@ import { dummyUsers, parseCookies } from "../frontend/utils.js";
 
 config();
 
+
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
   key: process.env.PUSHER_APP_KEY,
@@ -19,7 +20,6 @@ const pusher = new Pusher({
 });
 
 // ...code continues below
-
 
 const app = express();
 const port = process.env.PORT || 4040;
@@ -32,7 +32,6 @@ app.use(express.static(path.join(__dirname, "..", "frontend")));
 // ...app.use statements
 
 app.post("/pusher/auth", (req, res) => {
-    console.log(req.body);
     const socketId = req.body.socket_id;
     const channel = req.body.channel_name;
     const cookies = parseCookies(req);
@@ -44,7 +43,7 @@ app.post("/pusher/auth", (req, res) => {
     const authResponse = pusher.authorizeChannel(socketId, channel, user);
   
     res.json({
-      ...authResponse,
+      ar: [...authResponse],
       channel_data: JSON.stringify(user),
     });
   });

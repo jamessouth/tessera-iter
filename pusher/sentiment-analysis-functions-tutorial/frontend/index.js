@@ -6,7 +6,8 @@ import {
   } from "./utils.js";
   
   // ...code continues below
-// ...imports above
+
+  // ...imports above
 
 let channel;
 
@@ -34,7 +35,6 @@ loginForm.addEventListener("submit", async (event) => {
 // ...code continues below
 // ...continues from above
 const pusherClient = await getPusherClient();
-console.log(pusherClient);
 
 channel = pusherClient.subscribe("private-chat-channel");
 channel.bind("client-chat-event", (data) => {

@@ -1,6 +1,6 @@
 function getPusherClient() {
   Pusher.logToConsole = true;
-  return new Pusher("aab0494ac1e7c4890e70", { cluster: "us2" }); // TODO: Add your pusher key and cluster
+  return new Pusher("fe257281aabc7cebb6f2", { cluster: "us2" }); // TODO: Add your pusher key and cluster
 }
 
 function renderMessage({ query, message, className }) {
