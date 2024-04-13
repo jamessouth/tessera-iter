@@ -1,11 +1,8 @@
-import { Schema, type } from "@colyseus/schema";
 
-export class TrainCard extends Schema {
-  @type("string") readonly color: string;
-  @type("boolean")  isFaceUp: boolean = false;
+export class TrainCard {
+  color;
 
-  constructor(color: string) {
-    super();
+  constructor(color) {
     this.color = color;
   }
 }

@@ -3,16 +3,16 @@ import { DestCard } from "./DestCard";
 import { TrainCard } from "./TrainCard";
 
 export class Player extends Schema {
-  @type("string") name: string = "";
-  @type("uint8") numTrains: number = 45;
-  @type("uint8") score: number = 0;
-  @type("boolean") isTurn: boolean = true;
-  @type([TrainCard]) trainCards = new ArraySchema<TrainCard>();
-  @type([DestCard]) destCards = new ArraySchema<DestCard>();
-  @type("string") sessionId: string = "";
-  @type("uint8") trainCardsLeftToDrawThisTurn: number = 4;
+  name = "";
+  numTrains = 45;
+  score = 0;
+  isTurn = true;  //isTurn defaults to true? 
+  trainCards = new Array()
+  destCards = new Array();
+  sessionId = "";
+  trainCardsLeftToDrawThisTurn = 4;
 
-  drawTrainCard(deck: TrainCard[]) {
+  drawTrainCard(deck) {
     if (!this.isTurn) {
       return;
     }
@@ -24,10 +24,11 @@ export class Player extends Schema {
     //empty deck case (rare)
     if (deck.length === 0) {
       console.log("empty deck");
+      //need to force the player to take another action
       return;
     }
 
-    const card = deck.pop()!;
+    const card = deck.pop();
     this.trainCards.push(card);
 
     if (
