@@ -1,5 +1,5 @@
-// import { DestCard } from "./DestCard";
-// import { TrainCard } from "./TrainCard";
+import DestCard from "./DestCard.mjs";
+import TrainCard from "./TrainCard.mjs";
 
 export default class Player {
   name = "";
@@ -63,5 +63,3 @@ export default class Player {
   //     this.trainCardsLeftToDrawThisTurn -= 1;
   //   }
 }
-
-module.exports = Player

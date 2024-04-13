@@ -15,5 +15,3 @@ export default class Route {
     this.color2 = color2;
   }
 }
-
-module.exports = Route

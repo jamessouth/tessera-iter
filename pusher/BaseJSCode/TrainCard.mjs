@@ -6,5 +6,3 @@ export default class TrainCard {
     this.color = color;
   }
 }
-
-module.exports = TrainCard

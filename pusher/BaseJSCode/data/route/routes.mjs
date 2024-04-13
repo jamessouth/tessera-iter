@@ -1,4 +1,4 @@
-import { Route } from "../../schema/Route";
+import Route from "../../Route.mjs";
 
 let arr = [
   { rt: "Vancouver:Calgary", pts: 3, c1: "gray" },
@@ -81,6 +81,6 @@ let arr = [
   { rt: "Boston:Montreal", pts: 2, c1: "gray", c2: "gray" },
 ];
 
-export const routes: Route[] = arr.map(
+export const routes = arr.map(
   (x) => new Route(x.rt, x.pts, x.c1, x.c2)
 );

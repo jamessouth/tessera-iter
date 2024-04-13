@@ -8,5 +8,3 @@ export default class DestCard {
     this.points = points;
   }
 }
-
-// module.exports = DestCard;

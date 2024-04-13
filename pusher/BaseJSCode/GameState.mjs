@@ -1,8 +1,8 @@
 
-// import { Player } from "./Player";
-// import { TrainCard } from "./TrainCard";
-// import { destCards } from "../data/destCard/destCards";
-// import { DestCard } from "./DestCard";
+import Player from "./Player.mjs";
+import TrainCard from "./TrainCard.mjs";
+import { destCards } from "./data/destCard/destCards.mjs";
+import DestCard from "./DestCard.mjs";
 
 export default class GameState {
   players = new Array();
@@ -11,7 +11,7 @@ export default class GameState {
   
   trainCardDiscards = new Array();
   trainCardFaceUpDeck = new Array();
-  //destCardDeck = this.shuffleArray(destCards);
+  destCardDeck = this.shuffleArray(destCards);
 
   constructor(numPlayers) {
     this.players.length = numPlayers;
@@ -40,6 +40,3 @@ export default class GameState {
  
   
 }
-
-// module.exports = GameState
-// export {Player};

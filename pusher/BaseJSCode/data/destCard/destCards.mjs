@@ -1,4 +1,4 @@
-import { DestCard } from "../../schema/DestCard";
+import DestCard from "../../DestCard.mjs";
 
 let arr = [
   { rt: "Boston:Miami", pts: 12 },
@@ -33,4 +33,4 @@ let arr = [
   { rt: "Winnipeg:Little Rock", pts: 11 },
 ];
 
-export const destCards: DestCard[] = arr.map((x) => new DestCard(x.rt, x.pts));
+export const destCards = arr.map((x) => new DestCard(x.rt, x.pts));
