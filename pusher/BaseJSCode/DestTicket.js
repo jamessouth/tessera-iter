@@ -1,5 +1,5 @@
 
-export default class DestCard {
+export default class destTicket {
   route;
   points;
 

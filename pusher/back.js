@@ -24,22 +24,22 @@ const dummyUsers = [
   },
 ];
 
-function parseCookies(request) {
-  const parsedCookies = {};
-  const cookieHeader = request.headers?.cookie;
-  if (!cookieHeader) return parsedCookies;
+// function parseCookies(request) {
+//   const parsedCookies = {};
+//   const cookieHeader = request.headers?.cookie;
+//   if (!cookieHeader) return parsedCookies;
 
-  cookieHeader.split(';').forEach((cookie) => {
-    let [name, ...rest] = cookie.split('=');
-    name = name?.trim();
-    if (!name) return;
-    const value = rest.join('=').trim();
-    if (!value) return;
-    parsedCookies[name] = decodeURIComponent(value);
-  });
+//   cookieHeader.split(';').forEach((cookie) => {
+//     let [name, ...rest] = cookie.split('=');
+//     name = name?.trim();
+//     if (!name) return;
+//     const value = rest.join('=').trim();
+//     if (!value) return;
+//     parsedCookies[name] = decodeURIComponent(value);
+//   });
 
-  return parsedCookies;
-}
+//   return parsedCookies;
+// }
 
 
 config();

@@ -1,14 +1,11 @@
-import DestCard from "./DestCard.mjs";
-import TrainCard from "./TrainCard.mjs";
-
 export default class Player {
   name = "";
   numTrains = 45;
   score = 0;
   isTurn = true;  //isTurn defaults to true? 
-  trainCards = new Array()
-  destCards = new Array();
-  sessionId = "";
+  trainCards = [];
+  destTickets = [];
+  socketId = "";
   trainCardsLeftToDrawThisTurn = 4;
 
   drawTrainCard(deck) {
@@ -43,7 +40,7 @@ export default class Player {
     }
   }
 
-  //   drawDestCard(deck: DestCard[]) {
+  //   drawdestTicket(deck: destTicket[]) {
   //     if (!this.isTurn) {
   //       return;
   //     }

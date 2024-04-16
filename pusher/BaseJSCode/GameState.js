@@ -1,24 +1,25 @@
+import { immerable } from "immer";
 
-import Player from "./Player.mjs";
-import { trainCards } from "./data/trainCard/trainCards.mjs";
-import { destCards } from "./data/destCard/destCards.mjs";
-import DestCard from "./DestCard.mjs";
+import Player from "./Player.js";
+import { destTickets } from "./data/destTicket/destTickets.js";
+import { trainCards } from "./data/trainCard/trainCards.js";
 
 export default class GameState {
-  players = new Array();
+    [immerable] = true;
 
+  players = [];
+  trainCardTable = [];//face up cards
+  trainCardDiscards = [];
   trainCardDeck = this.shuffleArray(trainCards)
-  
-  trainCardDiscards = new Array();
-  trainCardFaceUpDeck = new Array();
-  destCardDeck = this.shuffleArray(destCards);
+  destTicketDeck = this.shuffleArray(destTickets);
   isLastRound = false;
 
+  
+
   constructor(numPlayers) {
-    this.players.length = numPlayers;
 
     //Give the players their names, need to figure out how to get user input
-    for (let i = 0; i < this.players.length; i++) {
+    for (let i = 0; i < numPlayers; i++) {
       this.players[i] = new Player()
     //   console.log("Enter player " + (i+1) + "'s name");
     //   this.players[i].name = input
@@ -33,8 +34,8 @@ export default class GameState {
 
     
     //for debugging purposes, prints out the destination and train cards
-    // for (let i = 0 ; i < this.destCardDeck.length; i++) {
-    //   console.log(this.destCardDeck[i])
+    // for (let i = 0 ; i < this.destTicketDeck.length; i++) {
+    //   console.log(this.destTicketDeck[i])
     // }
     // for (let i = 0; i < this.trainCardDeck.length; i++) {
     //   console.log(this.trainCardDeck[i])

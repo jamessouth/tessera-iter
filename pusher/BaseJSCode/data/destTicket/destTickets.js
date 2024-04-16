@@ -1,4 +1,4 @@
-import DestCard from "../../DestCard.mjs";
+import destTicket from "../../destTicket.js";
 
 let arr = [
   { rt: "Boston:Miami", pts: 12 },
@@ -33,4 +33,4 @@ let arr = [
   { rt: "Winnipeg:Little Rock", pts: 11 },
 ];
 
-export const destCards = arr.map((x) => new DestCard(x.rt, x.pts));
+export const destTickets = arr.map((x) => new destTicket(x.rt, x.pts));

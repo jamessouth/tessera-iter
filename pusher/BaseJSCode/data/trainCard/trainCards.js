@@ -1,5 +1,5 @@
-import TrainCard from "../../TrainCard.mjs";
-import { colors } from "../colors.mjs";
+import TrainCard from "../../TrainCard.js";
+import { colors } from "../colors.js";
 
 export const trainCards = colors
   .flatMap((x) => Array(12).fill(new TrainCard(x)))
