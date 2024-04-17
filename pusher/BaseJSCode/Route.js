@@ -1,10 +1,13 @@
+import { immerable } from 'immer';
 
 export default class Route {
+  [immerable] = true;
+
   isSmallGame = true;
-  name = "";
+  name = '';
   points = 0;
-  color1 = "";
-  color2 = "";
+  color1 = '';
+  color2 = '';
   taken1 = false;
   taken2 = false;
 

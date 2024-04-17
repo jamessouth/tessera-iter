@@ -1,7 +1,10 @@
+import { immerable } from 'immer';
 
 export default class destTicket {
-  route;
-  points;
+  [immerable] = true;
+
+  route = '';
+  points = 0;
 
   constructor(route, points) {
     this.route = route;
@@ -9,6 +12,6 @@ export default class destTicket {
   }
 
   toString() {
-    return route + " route, value " + points
+    return route + ' route, value ' + points;
   }
 }

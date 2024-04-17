@@ -4,6 +4,9 @@ import express from 'express';
 import * as path from 'path';
 import Pusher from 'pusher';
 import { fileURLToPath } from 'url';
+// import { produce } from 'immer';
+import GameState from "./BaseJSCode/GameState";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,22 +27,20 @@ const dummyUsers = [
   },
 ];
 
-// function parseCookies(request) {
-//   const parsedCookies = {};
-//   const cookieHeader = request.headers?.cookie;
-//   if (!cookieHeader) return parsedCookies;
 
-//   cookieHeader.split(';').forEach((cookie) => {
-//     let [name, ...rest] = cookie.split('=');
-//     name = name?.trim();
-//     if (!name) return;
-//     const value = rest.join('=').trim();
-//     if (!value) return;
-//     parsedCookies[name] = decodeURIComponent(value);
-//   });
 
-//   return parsedCookies;
-// }
+// this.players[0].name = 'Kappi';
+// this.players[1].name = 'Maour';
+// this.players[2].name = "Klo"
+// this.players[3].name = "Von"
+// this.players[4].name = "Skuggi"
+
+
+const baseState = new GameState(
+    {name: 'Kappi', socketId: 1},
+    {name: 'Maour', socketId: 2}
+);
+
 
 
 config();
@@ -113,4 +114,19 @@ app.listen(port, () => {
   })
 
 
+// function parseCookies(request) {
+//   const parsedCookies = {};
+//   const cookieHeader = request.headers?.cookie;
+//   if (!cookieHeader) return parsedCookies;
 
+//   cookieHeader.split(';').forEach((cookie) => {
+//     let [name, ...rest] = cookie.split('=');
+//     name = name?.trim();
+//     if (!name) return;
+//     const value = rest.join('=').trim();
+//     if (!value) return;
+//     parsedCookies[name] = decodeURIComponent(value);
+//   });
+
+//   return parsedCookies;
+// }

@@ -1,8 +1,8 @@
+import { immerable } from 'immer';
 
 export default class TrainCard {
-  color;
+  [immerable] = true;
 
-  constructor(color) {
-    this.color = color;
-  }
+  color = '';
+  table = false;
 }
