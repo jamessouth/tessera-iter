@@ -1,3 +1,4 @@
+import '@alenaksu/json-viewer';
 import Pusher from 'pusher-js';
 
 // function setCookie({ name, value, expiryInDays }) {
@@ -19,7 +20,7 @@ import Pusher from 'pusher-js';
 // }
 
 function getPusherClient() {
-  Pusher.logToConsole = true;
+//   Pusher.logToConsole = true;
   return new Pusher('fe257281aabc7cebb6f2', { cluster: 'us2' });
 }
 
@@ -57,14 +58,16 @@ channel.bind('client-chat-event', (data) => {
   if (data) {
     // console.log(typeof data);
     // console.log(data.message);
-    console.log(data);
-    const p = document.createElement('p');
+    // console.log(data);
+    // const p = document.createElement('pre');
+    // const c = document.createElement('code');
+    // p.insertAdjacentElement('beforeend',c);
 
-    const newContent = document.createTextNode(data.message);
+    // const newContent = document.createTextNode(JSON.stringify(data));
+    document.querySelector('#json').data =data;
+    // p.appendChild(newContent);
 
-    p.appendChild(newContent);
-
-    msgs.insertAdjacentElement('beforeend', p);
+    // msgs.insertAdjacentElement('beforeend', p);
 
     //   renderMessage({
     //     query: '.messages',

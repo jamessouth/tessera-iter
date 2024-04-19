@@ -1,4 +1,4 @@
-import destTicket from '../../destTicket';
+import DestTicket from '../../DestTicket.js';
 
 let arr = [
   { rt: 'Boston:Miami', pts: 12 },
@@ -33,6 +33,5 @@ let arr = [
   { rt: 'Winnipeg:Little Rock', pts: 11 },
 ];
 
-const destTickets = arr.map((x) => new destTicket(x.rt, x.pts));
-
+const destTickets = arr.map((x) => new DestTicket(x.rt, x.pts));
 export default destTickets;

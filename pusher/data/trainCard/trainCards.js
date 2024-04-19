@@ -1,5 +1,5 @@
-import TrainCard from '../../TrainCard';
-import colors from '../colors';
+import TrainCard from '../../TrainCard.js';
+import colors from '../colors.js';
 
 const trainCards = colors
   .flatMap((x) => Array(12).fill(new TrainCard(x)))

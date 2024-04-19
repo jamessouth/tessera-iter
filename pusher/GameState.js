@@ -1,16 +1,19 @@
 import { immerable } from 'immer';
-import Player from './Player';
-import destTickets from './data/destTicket/destTickets';
-import trainCards from './data/trainCard/trainCards';
-import shuffleArray from './utils/shuffleArray';
+import Player from './Player.js';
+import destTickets from './data/destTicket/destTickets.js';
+import trainCards from './data/trainCard/trainCards.js';
+import shuffleArray from './utils/shuffleArray.js';
+
+const initTableCards = 5;
+const initTrainCards = 4;
 
 export default class GameState {
   [immerable] = true;
 
-  players = [];
-  trainCardTable = []; //face up cards
-  trainCardDiscards = [];
   trainCardDeck = shuffleArray(trainCards);
+  players = [];
+  trainCardTable = this.trainCardDeck.splice(0,initTableCards).map(c => {c.isOnTable = true; return c}); //face up cards
+  trainCardDiscards = [];
   destTicketDeck = shuffleArray(destTickets);
   isLastRound = false;
 
@@ -18,7 +21,8 @@ export default class GameState {
     //2-5 players objs with name and socketId
     //Give the players their names, need to figure out how to get user input
     for (const player of players) {
-      this.players.push(new Player(player));
+        const initCards = this.trainCardDeck.splice(0,initTrainCards);
+      this.players.push(new Player(player, initCards));
       //   console.log("Enter player " + (i+1) + "'s name");
       //   this.players[i].name = input
     }

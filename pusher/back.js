@@ -5,7 +5,7 @@ import * as path from 'path';
 import Pusher from 'pusher';
 import { fileURLToPath } from 'url';
 // import { produce } from 'immer';
-import GameState from "./BaseJSCode/GameState";
+import GameState from "./GameState.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -86,11 +86,12 @@ app.post("/trigger", (req, res) => {
     pusher.trigger(
       "private-chat-channel",
       "client-chat-event",
-      {
-        message: "hello world",
-        data: "5",
-        num:3
-      },
+      baseState,
+    //   {
+    //     message: "hello world",
+    //     data: "5",
+    //     num:3
+    //   },
     //   {
     //     socket_id: socketId,
     //   }

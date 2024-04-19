@@ -1,4 +1,4 @@
-import Route from '../../Route';
+import Route from '../../Route.js';
 
 let arr = [
   { rt: 'Vancouver:Calgary', pts: 3, c1: 'gray' },

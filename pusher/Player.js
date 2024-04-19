@@ -6,15 +6,16 @@ export default class Player {
   name = '';
   numTrains = 45;
   score = 0;
-  isTurn = true; //isTurn defaults to true?
+  isTurn = false; 
   trainCards = [];
   destTickets = [];
   socketId = '';
-  trainCardsLeftToDrawThisTurn = 4;
+  trainCardsLeftToDrawThisTurn = 2;
 
-  constructor(player) {
+  constructor(player, initCards) {
     this.name = player.name;
     this.socketId = player.socketId;
+    this.trainCards = this.trainCards.concat(initCards);
   }
 
   //   drawTrainCard(deck) {

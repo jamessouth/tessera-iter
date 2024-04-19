@@ -4,5 +4,9 @@ export default class TrainCard {
   [immerable] = true;
 
   color = '';
-  table = false;
+  isOnTable = false;
+
+  constructor(color) {
+    this.color = color;
+  }
 }
