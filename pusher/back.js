@@ -36,10 +36,10 @@ const dummyUsers = [
 // this.players[4].name = "Skuggi"
 
 
-const baseState = new GameState(
+const baseState = new GameState([
     {name: 'Kappi', socketId: 1},
-    {name: 'Maour', socketId: 2}
-);
+    {name: 'Maour', socketId: 2},
+]);
 
 
 

@@ -1,34 +1,43 @@
 import { immerable } from 'immer';
 import Player from './Player.js';
 import destTickets from './data/destTicket/destTickets.js';
-import trainCards from './data/trainCard/trainCards.js';
+import prepDecks from './utils/prepDecks.js';
 import shuffleArray from './utils/shuffleArray.js';
 
-const initTableCards = 5;
 const initTrainCards = 4;
+const pd = prepDecks();
+console.log(pd);
 
 export default class GameState {
   [immerable] = true;
 
-  trainCardDeck = shuffleArray(trainCards);
+
   players = [];
-  trainCardTable = this.trainCardDeck.splice(0,initTableCards).map(c => {c.isOnTable = true; return c}); //face up cards
+  trainCardDeck = pd[0];
+  trainCardTable = pd[1]; //face up cards
   trainCardDiscards = [];
   destTicketDeck = shuffleArray(destTickets);
   isLastRound = false;
 
-  constructor(...players) {
+  constructor(players) {
     //2-5 players objs with name and socketId
     //Give the players their names, need to figure out how to get user input
     for (const player of players) {
-        const initCards = this.trainCardDeck.splice(0,initTrainCards);
-      this.players.push(new Player(player, initCards));
+      
+      this.players.push(new Player(player));
       //   console.log("Enter player " + (i+1) + "'s name");
       //   this.players[i].name = input
     }
 
-    //placeholder names moved to back.js
+    // const firstTableCards = this.trainCardDeck.splice(0, initTableCards).map((c) => {
+    //     c.isOnTable = true;
+    //     return c;
+    //   });
+    // this.trainCardTable.splice(0, 0, firstTableCards);
+    
+    
 
+    //placeholder names moved to back.js
 
     //for debugging purposes, prints out the destination and train cards
     // for (let i = 0 ; i < this.destTicketDeck.length; i++) {

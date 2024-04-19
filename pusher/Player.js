@@ -12,10 +12,9 @@ export default class Player {
   socketId = '';
   trainCardsLeftToDrawThisTurn = 2;
 
-  constructor(player, initCards) {
+  constructor(player) {
     this.name = player.name;
     this.socketId = player.socketId;
-    this.trainCards = this.trainCards.concat(initCards);
   }
 
   //   drawTrainCard(deck) {
