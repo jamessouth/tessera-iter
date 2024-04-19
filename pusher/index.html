@@ -1,37 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" type="image/jpg" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
-    <title>Vite App</title>
+    <title>Tessera ITER!!!!</title>
   </head>
   <body>
     <div class="container">
-        
-        
-    
-        <div id="chat-area" >
-            <div class="messages"></div>
-    <select name="actions" id="actions">
-<!-- <option value="">join game</option> -->
-<option value="">draw train card from deck</option>
-<option value="">draw train card from table</option>
-<option value=""></option>
-<option value=""></option>
-    </select>
-                <input
-                type="text"
-                name="data"
-                id="data"
-                autofocus
-                />
-                <button id="enter" >enter</button>
-                <button id="trig" >trig</button>
-        </div>
-        <json-viewer id="json"></json-viewer>
-        </div>
+      <div id="chat-area">
+        <div class="messages"></div>
+        <select name="actions" id="actions">
+          <!-- <option value="">join game</option> -->
+          <option value="draw train card from deck">draw train card from deck</option>
+          <option value="draw train card from table">draw train card from table</option>
+          <option value="discard dest ticket">discard dest ticket</option>
+          <!-- <option value=""></option>
+          <option value=""></option> -->
+        </select>
+        <input type="text" name="data" id="data" autofocus />
+        <button id="enter">enter</button>
+        <button id="trig">trig</button>
+      </div>
+      <h2>total state</h2>
+      <json-viewer id="json"></json-viewer>
+      <h2>personal state</h2>
+      <json-viewer id="json2"></json-viewer>
+    </div>
     <script type="module" src="/front.js"></script>
   </body>
 </html>

@@ -78,14 +78,36 @@ app.post('/pusher/auth', (req, res) => {
     });
 });
 
-app.post("/trigger", (req, res) => {
+app.post("/updatestate", (req, res) => {
     // const socketId = req.body.socket_id;
     console.log();
     console.log(req.body);
     console.log();
     pusher.trigger(
-      "private-chat-channel",
-      "client-chat-event",
+      "private-totalstate-channel",
+      "client-totalstate-event",
+      baseState,
+    //   {
+    //     message: "hello world",
+    //     data: "5",
+    //     num:3
+    //   },
+    //   {
+    //     socket_id: socketId,
+    //   }
+    );
+    res.json({
+        message : "Book added successfully"});
+  });
+app.post("/returndestticket/:socket_id", (req, res) => {
+    const socket_id_body = req.body.socket_id;
+    const socket_id_query = req.params.socket_id;
+    console.log(socket_id_body,socket_id_query);
+    console.log(req.body);
+    console.log();
+    pusher.trigger(
+      "private-plr_Kappi-channel",
+      "plr_Kappi-event",
       baseState,
     //   {
     //     message: "hello world",
