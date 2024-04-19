@@ -4,6 +4,7 @@ export default class Player {
   [immerable] = true;
 
   name = '';
+  color = '';
   numTrains = 45;
   score = 0;
   isTurn = false; 
@@ -12,9 +13,11 @@ export default class Player {
   socketId = '';
   trainCardsLeftToDrawThisTurn = 2;
 
-  constructor(player) {
+  constructor(player, trainCards, destTickets) {
     this.name = player.name;
     this.socketId = player.socketId;
+    this.trainCards.push(...trainCards);
+    this.destTickets.push(...destTickets);
   }
 
   //   drawTrainCard(deck) {
