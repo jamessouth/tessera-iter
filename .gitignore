@@ -6,6 +6,8 @@
 # Node artifact files
 node_modules/
 dist/
+dist-ssr
+*.local
 
 # Compiled Java class files
 *.class
@@ -102,6 +104,7 @@ web_modules/
 
 # Optional npm cache directory
 .npm
+typings/
 
 # Optional eslint cache
 .eslintcache
@@ -173,6 +176,15 @@ dist
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # yarn v2
 .yarn/cache
