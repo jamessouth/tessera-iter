@@ -6,26 +6,26 @@ function getPusherClient() {
   return new Pusher('fe257281aabc7cebb6f2', { cluster: 'us2' });
 }
 
-let channel;
+let totalstate_channel, prl_Kappi_channel;
 
 const msgs = document.querySelector('.container');
 
 const pusher = getPusherClient();
-channel = pusher.subscribe('private-totalstate-channel');
-channel = pusher.subscribe('private-plr_Kappi-channel');
+totalstate_channel = pusher.subscribe('private-totalstate-channel');
+prl_Kappi_channel = pusher.subscribe('private-plr_Kappi-channel');
 //   console.log(channel);
 let socket_id = null;
 pusher.connection.bind('connected', () => {
   socket_id = pusher.connection.socket_id;
 });
-channel.bind('client-totalstate-event', (data) => {
+totalstate_channel.bind('client-totalstate-event', (data) => {
     console.log('here');
   if (data) {
     document.querySelector('#json').data = data;
   }
 });
 
-channel.bind('plr_Kappi-event', (data) => {
+prl_Kappi_channel.bind('plr_Kappi-event', (data) => {
   if (data) {
     document.querySelector('#json2').data = data;
   }
