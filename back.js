@@ -73,16 +73,14 @@ app.post('/pusher/auth', (req, res) => {
   const socketId = req.body.socket_id;
   const channel = req.body.channel_name;
     const cookies = parseCookies(req);
-    const { username } = cookies;
-
-  const user = username;
+    const { tessera_iter_username } = cookies;
   //   if (!user) return res.status(403).send('Invalid username');
 
-  const authResponse = pusher.authorizeChannel(socketId, channel, user);
+  const authResponse = pusher.authorizeChannel(socketId, channel, tessera_iter_username);
 
   return res.json({
     ...authResponse,
-    channel_data: JSON.stringify(user),
+    channel_data: JSON.stringify(tessera_iter_username),
   });
 });
 

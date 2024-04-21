@@ -6,20 +6,28 @@ function getPusherClient() {
   Pusher.logToConsole = true;
   return new Pusher('fe257281aabc7cebb6f2', { cluster: 'us2' });
 }
-//from pusher tutorial
+//adapted from pusher tutorial
 function setCookie({ name, value, expiryInDays }) {
   const date = new Date();
   date.setTime(date.getTime() + expiryInDays * 24 * 60 * 60 * 1000);
   const expires = `expires=${date.toUTCString()}`;
-  document.cookie = `${name}=${value};${expires};path=/`;
+  document.cookie = `${name}=${value};${expires};path=/;SameSite=Strict`;
 }
+//adapted from mdn document.cookie ex 5
+function cookieExists() {
+      return document.cookie.split(";").some((k) => k.trim().startsWith("tessera_iter_username="));
+  }
 
 let socket_id = null;
 let totalstate_channel, player_channel;
 
 // const msgs = document.querySelector('.container');
 
-
+if (cookieExists()){
+    console.log('cookie');
+} else {
+    console.log('no cookie');
+}
 
 const input = document.querySelector('#data');
 const select = document.querySelector('#actions');
@@ -52,7 +60,7 @@ document.querySelector('#enter').addEventListener('click', async (e) => {
   if (action === 'enter name' && message !== '') {
     const name = message.replace(/\W/ig, '').slice(0,12);
 
-    setCookie({ name: 'username', value: name, expiryInDays: 1 });
+    setCookie({ name: 'tessera_iter_username', value: name, expiryInDays: 1 });
     const pusher = getPusherClient();
 
     pusher.connection.bind('connected', () => {
