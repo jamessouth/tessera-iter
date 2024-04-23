@@ -17,14 +17,18 @@ function setCookie({ name, value, expiryInDays }) {
 function cookieExists() {
       return document.cookie.split(";").some((k) => k.trim().startsWith("tessera_iter_username="));
   }
+function getNameCookieValue() {
+      return document.cookie.split(";").find((k) => k.trim().startsWith("tessera_iter_username=")).split('=')[1];
+  }
 
 let socket_id = null;
 let totalstate_channel, player_channel;
 
 // const msgs = document.querySelector('.container');
-
+let cookiebool = false;
 if (cookieExists()){
     console.log('cookie');
+    cookiebool = true;
 } else {
     console.log('no cookie');
 }
@@ -57,10 +61,16 @@ document.querySelector('#enter').addEventListener('click', async (e) => {
 
     //   console.log('bd987', resp);
   }
-  if (action === 'enter name' && message !== '') {
-    const name = message.replace(/\W/ig, '').slice(0,12);
+  if (action === 'enter name' && (message !== '' || cookiebool)) {
+let name;
+    if (!cookiebool){
 
-    setCookie({ name: 'tessera_iter_username', value: name, expiryInDays: 1 });
+        name = message.replace(/\W/ig, '').slice(0,12);
+        setCookie({ name: 'tessera_iter_username', value: name, expiryInDays: 1 });
+    } else {
+        name = getNameCookieValue();
+    }
+
     const pusher = getPusherClient();
 
     pusher.connection.bind('connected', () => {
@@ -72,6 +82,21 @@ document.querySelector('#enter').addEventListener('click', async (e) => {
       totalstate_channel.bind('client-totalstate-event', (data) => {
         if (data) {
           document.querySelector('#json').data = data;
+        }
+      });
+
+      totalstate_channel.bind('pusher:subscription_count', (data) => {
+        if (data) {
+        console.log(data);
+
+            const sub_count = document.createElement('p');
+            const player_name = document.createElement('p');
+            sub_count.textContent = 'players: '+data.subscription_count;
+            player_name.textContent = 'hello '+name;
+            document.querySelector('.messages').insertAdjacentElement('afterbegin',sub_count);
+            document.querySelector('.messages').insertAdjacentElement('afterbegin',player_name);
+
+
         }
       });
     
