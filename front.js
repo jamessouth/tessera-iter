@@ -1,43 +1,42 @@
 import '@alenaksu/json-viewer';
-import Pusher from 'pusher-js';
 
 //from pusher tutorial
-function getPusherClient() {
-  Pusher.logToConsole = true;
-  return new Pusher('fe257281aabc7cebb6f2', { cluster: 'us2' });
-}
-//adapted from pusher tutorial
-function setCookie({ name, value, expiryInDays }) {
-  const date = new Date();
-  date.setTime(date.getTime() + expiryInDays * 24 * 60 * 60 * 1000);
-  const expires = `expires=${date.toUTCString()}`;
-  document.cookie = `${name}=${value};${expires};path=/;SameSite=Strict`;
-}
-//adapted from mdn document.cookie ex 5
-function cookieExists() {
-      return document.cookie.split(";").some((k) => k.trim().startsWith("tessera_iter_username="));
-  }
-function getNameCookieValue() {
-      return document.cookie.split(";").find((k) => k.trim().startsWith("tessera_iter_username=")).split('=')[1];
-  }
+// function getPusherClient() {
+//   Pusher.logToConsole = true;
+//   return new Pusher('fe257281aabc7cebb6f2', { cluster: 'us2' });
+// }
+// //adapted from pusher tutorial
+// function setCookie({ name, value, expiryInDays }) {
+//   const date = new Date();
+//   date.setTime(date.getTime() + expiryInDays * 24 * 60 * 60 * 1000);
+//   const expires = `expires=${date.toUTCString()}`;
+//   document.cookie = `${name}=${value};${expires};path=/;SameSite=Strict`;
+// }
+// //adapted from mdn document.cookie ex 5
+// function cookieExists() {
+//       return document.cookie.split(";").some((k) => k.trim().startsWith("tessera_iter_username="));
+//   }
+// function getNameCookieValue() {
+//       return document.cookie.split(";").find((k) => k.trim().startsWith("tessera_iter_username=")).split('=')[1];
+//   }
 
-let socket_id = null;
-let totalstate_channel, player_channel;
+// let socket_id = null;
+// let totalstate_channel, player_channel;
 
 // const msgs = document.querySelector('.container');
-let cookiebool = false;
-if (cookieExists()){
-    console.log('cookie');
-    cookiebool = true;
-} else {
-    console.log('no cookie');
-}
+// let cookiebool = false;
+// if (cookieExists()){
+//     console.log('cookie');
+//     cookiebool = true;
+// } else {
+//     console.log('no cookie');
+// }
 
-const input = document.querySelector('#data');
+// const input = document.querySelector('#data');
 const select = document.querySelector('#actions');
 
 document.querySelector('#enter').addEventListener('click', async (e) => {
-  const message = input.value;
+//   const message = input.value;
   const action = select.value;
   if (action + message === '') {
     return;
