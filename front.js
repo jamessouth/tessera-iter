@@ -33,42 +33,42 @@ import '@alenaksu/json-viewer';
 // }
 
 // const input = document.querySelector('#data');
-const select = document.querySelector('#actions');
+// const select = document.querySelector('#actions');
 
 document.querySelector('#enter').addEventListener('click', async (e) => {
 //   const message = input.value;
-  const action = select.value;
-  if (action + message === '') {
-    return;
-  }
-  if (action === 'discard dest ticket' && message === '') {
-    alert('must input index to discard');
-  }
-  if (action === 'discard dest ticket' && message !== '') {
-    const bod = {
-      message,
-      socket_id,
-    };
+//   const action = select.value;
+//   if (action + message === '') {
+//     return;
+//   }
+//   if (action === 'discard dest ticket' && message === '') {
+//     alert('must input index to discard');
+//   }
+//   if (action === 'discard dest ticket' && message !== '') {
+//     const bod = {
+//       message,
+//       socket_id,
+//     };
 
-    const resp = await fetch('/returndestticket/' + socket_id, {
-      method: 'POST',
-      body: JSON.stringify(bod),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+//     const resp = await fetch('/returndestticket/' + socket_id, {
+//       method: 'POST',
+//       body: JSON.stringify(bod),
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//     });
 
-    //   console.log('bd987', resp);
-  }
+//     //   console.log('bd987', resp);
+//   }
   if (action === 'enter name' && (message !== '' || cookiebool)) {
-let name;
-    if (!cookiebool){
+// let name;
+//     if (!cookiebool){
 
-        name = message.replace(/\W/ig, '').slice(0,12);
-        setCookie({ name: 'tessera_iter_username', value: name, expiryInDays: 1 });
-    } else {
-        name = getNameCookieValue();
-    }
+//         name = message.replace(/\W/ig, '').slice(0,12);
+//         setCookie({ name: 'tessera_iter_username', value: name, expiryInDays: 1 });
+//     } else {
+//         name = getNameCookieValue();
+//     }
 
     const pusher = getPusherClient();
 
