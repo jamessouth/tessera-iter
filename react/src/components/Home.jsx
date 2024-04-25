@@ -1,13 +1,13 @@
-import Pusher from 'pusher-js';
+// import Pusher from 'pusher-js';
 import {
     useState
 } from 'react';
 
 //from pusher tutorial
-function getPusherClient() {
-    Pusher.logToConsole = true;
-    return new Pusher('fe257281aabc7cebb6f2', { cluster: 'us2' });
-  }
+// function getPusherClient() {
+//     Pusher.logToConsole = true;
+//     return new Pusher('fe257281aabc7cebb6f2', { cluster: 'us2' });
+//   }
 
 
 
@@ -20,9 +20,9 @@ export const Home = ({playerName}) => {
   
     const [inputVal, setInputVal] = useState('');
     const [selectVal, setSelectVal] = useState('');
-    const [socket_id, setSocket_id] = useState(null);
-    const [totalstate_channel, setTotalstate_channel] = useState(null);
-    const [player_channel, setPlayer_channel] = useState(null);
+    // const [socket_id, setSocket_id] = useState(null);
+    // const [totalstate_channel, setTotalstate_channel] = useState(null);
+    // const [player_channel, setPlayer_channel] = useState(null);
 
 
     // useEffect(() => {
@@ -35,6 +35,7 @@ export const Home = ({playerName}) => {
     return (
         <div className="container">
           <div id="chat-area">
+            {playerName}
             <div className="messages"></div>
             <select 
              id="actions"
@@ -72,22 +73,22 @@ export const Home = ({playerName}) => {
                     return;
                   }
 
-                  if (selectVal === 'discard dest ticket' && inputVal !== '') {
-                    const bod = {
-                      message:inputVal,
-                      socket_id,
-                    };
+                //   if (selectVal === 'discard dest ticket' && inputVal !== '') {
+                //     const bod = {
+                //       message:inputVal,
+                //       socket_id,
+                //     };
                 
-                    const resp = await fetch('/returndestticket/' + socket_id, {
-                      method: 'POST',
-                      body: JSON.stringify(bod),
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                    });
+                //     const resp = await fetch('/returndestticket/' + socket_id, {
+                //       method: 'POST',
+                //       body: JSON.stringify(bod),
+                //       headers: {
+                //         'Content-Type': 'application/json',
+                //       },
+                //     });
                 
-                    //   console.log('bd987', resp);
-                  }
+                //     //   console.log('bd987', resp);
+                //   }
 
                 
               }}
