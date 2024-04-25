@@ -46,10 +46,13 @@ export default class GameState {
 
   runGame() {
     let current = 0; //index of the current player
+    
+    //FIXME when one player has two or less trains, everyone including that player should get one more turn. Currently it always ends with last player in order
     while (!this.isLastRound) {
       for (current = 0; current < this.players.length; current++) {
         this.playTurn(current);
         this.isLastRound = this.players[current].numTrains < 3;
+        // current %= this.players.length-1  //Should reset current to 0 after the last player in order goes
       }
     }
   }
@@ -60,6 +63,14 @@ export default class GameState {
       '[1] Draw train cards\n[2] Claim a route\n[3] Draw destination cards\n\n'
     );
 
+    //if(input = 2/Claim Route)
+    //select route to claim
+    let route = '?'
+
+    //player chooses color before the claim route method. If the route is gray, choose color they're playing before this method
+    current.claimRoute(route, color)
+
     this.players[current].numTrains = 0; //TEMP
   }
+
 }
