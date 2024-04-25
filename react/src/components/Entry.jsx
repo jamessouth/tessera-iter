@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Home } from './Home.jsx';
 
 const nameCookieKey = 'tessera_iter_username=';
@@ -22,22 +22,36 @@ function setCookie({ name, value, expiryInDays }) {
   document.cookie = `${name}${value};${expires};path=/;SameSite=Strict`;
 }
 
-export const Enter = () => {
+export const Entry = () => {
   const [inputVal, setInputVal] = useState('');
   const [playerName, setPlayerName] = useState('');
+  const [goIn, setGoIn] = useState(false);
 
-  if (isCookieSet(nameCookieKey)) {
-    console.log('cookie');
-    setPlayerName(getCookieValue(nameCookieKey));
-  } else {
-    console.log('no cookie');
-  }
+  useEffect(() => {
+    if (playerName === '') return;
+    setCookie({
+      name: nameCookieKey,
+      value: playerName,
+      expiryInDays: 10,
+    });
+    setGoIn(true);
+
+  }, [playerName]);
+
+  useEffect(() => {
+    if (isCookieSet(nameCookieKey)) {
+      console.log('cookie');
+      setPlayerName(getCookieValue(nameCookieKey));
+    } else {
+      console.log('no cookie');
+    }
+  }, []);
 
   return (
     <div>
-      {playerName !== '' && <h2>Welcome back {playerName}!</h2>}
-
-      {playerName === '' && (
+      {playerName !== '' && goIn && <Home playerName={playerName} />}
+      {playerName !== '' && !goIn && <h2>Welcome back {playerName}!</h2>}
+      {!goIn && playerName === '' && (
         <input
           autoComplete="off"
           autoFocus
@@ -49,30 +63,27 @@ export const Enter = () => {
           value={inputVal}
         />
       )}
-
-      <button
-        id="enter"
-        onClick={() => {
-          if (inputVal + playerName === '') {
-            return;
-          } else if (playerName !== '') {
-            <Home playerName={playerName} />;
-          } else if (playerName === '' && inputVal !== '') {
-            setPlayerName(
-              inputVal.replace(/\W/g, '').slice(0, NAME_MAX_LENGTH),
-              () =>
-                setCookie({
-                  name: nameCookieKey,
-                  value: playerName,
-                  expiryInDays: 10,
-                })
-            );
-          }
-        }}
-        type="button"
-      >
-        enter
-      </button>
+      
+      {!goIn && (
+        <button
+          id="enter"
+          className="m-4 bg-blue-600"
+          onClick={() => {
+            if (inputVal + playerName === '') {
+              return;
+            } else if (playerName !== '') {
+              setGoIn(true);
+            } else if (playerName === '' && inputVal !== '') {
+              setPlayerName(
+                inputVal.replace(/\W/g, '').slice(0, NAME_MAX_LENGTH)
+              );
+            }
+          }}
+          type="button"
+        >
+          enter
+        </button>
+      )}
     </div>
   );
 };

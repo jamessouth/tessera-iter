@@ -6,7 +6,7 @@
   "main": "back.js",
   "scripts": {
     "dev": "vite",
-    "back": "nodemon back.js",
+    "back": "nodemon ../back.js",
     "build": "vite build",
     "lint": "eslint src --ext jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
