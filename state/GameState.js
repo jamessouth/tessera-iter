@@ -3,6 +3,7 @@ import destTickets from '../data/destTicket/destTickets.js';
 import trainCards from '../data/trainCard/trainCards.js';
 import shuffleArray from '../utils/shuffleArray.js';
 import Player from './Player.js';
+import routes from '../data/route/routes.js';
 
 const initDestTickets = 3;
 const initTrainCards = 4;
@@ -17,6 +18,7 @@ export default class GameState {
   trainCardDiscards = [];
   destTicketDeck = shuffleArray(destTickets);
   isLastRound = false;
+  isSmallGame = false;
 
   constructor(players) {
     //2-5 players objs with name and socketId
@@ -29,7 +31,9 @@ export default class GameState {
       //   this.players[i].name = input
     }
     this.trainCardTable.forEach(c => c.isOnTable = true);
- 
+    if (this.players.length <= 3) {
+      this.isSmallGame = true
+    }
     
     
 
@@ -58,19 +62,69 @@ export default class GameState {
   }
 
   playTurn(current) {
-    console.log('It is ' + this.players[current].name + "'s turn.\n");
+    console.log('\n\nIt is ' + this.players[current].name + "'s turn.");
     console.log(
-      '[1] Draw train cards\n[2] Claim a route\n[3] Draw destination cards\n\n'
+      '[1] Draw train cards\n[2] Claim a route\n[3] Draw destination cards\n'
     );
 
     //if(input = 2/Claim Route)
-    //select route to claim
-    let route = '?'
-
-    //player chooses color before the claim route method. If the route is gray, choose color they're playing before this method
-    current.claimRoute(route, color)
+    this.selectRoute(current)
 
     this.players[current].numTrains = 0; //TEMP
   }
 
+  selectRoute(current) {
+    
+     //Hardcoded value
+    let route   //routes[0] = { rt: 'Vancouver:Calgary', length: 3, c1: 'gray' }
+    let color
+    switch(current) {
+      case 0:
+        route = routes[55]
+        color = 'green'
+        break;
+      case 1:
+        route = routes[55]
+        color = 'white'
+        break;
+      case 2:
+        route = routes[55]
+        color = 'white'
+        break;
+      default:
+        route = routes[0]
+        color = 'red'
+        break
+    }
+    //select route to claim
+    console.log(route.name)
+    //(One lane, route claimed) or (Small game, route claimed) or (both routes claimed)
+    if ((route.taken1 && route.color2 === null) || (this.isSmallGame && (route.taken1 || route.taken2)) || (route.taken1 && route.taken2)) {
+      console.log("Route already claimed!")
+      return
+    }
+
+    //any gray double routes are gray on both routes
+    if (route.color1 === 'gray') {
+      console.log("Which color do you want to play this route as?")
+      // get player input
+      // color = input color
+      color = "blue"
+    } else if ((route.color1 !== 'gray' && route.color2 !== null) && !(route.taken1 || route.taken2)){
+      console.log("Which color of the route do you want to claim?")
+      console.log("Attempting to claim the " + color + " route of " + route.name)
+    } else if (route.taken1) {
+      color = route.color2
+    } else if (route.taken2) {
+      color = route.color1
+    }
+    
+    console.log("Attempting to claim the " + color + " route of " + route.name)
+    if ((color !== route.color1 && color !== route.color2) && route.color1 !== "gray"){
+      console.log("Cannot claim that route with that color!")
+      return
+    }
+    //player chooses color before the claim route method. If the route is gray, choose color they're playing before this method
+    this.players[current].claimRoute(route, color)
+  }
 }

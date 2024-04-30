@@ -1,5 +1,6 @@
 import { immerable } from 'immer';
-import Route from './Route';
+import Route from './Route.js';
+
 
 export default class Player {
   [immerable] = true;
@@ -23,7 +24,7 @@ export default class Player {
   }
 
   /**
-   * Method for a player to claim a route. Completely untested.
+   * Method for a player to claim a route. Currently not recieving user input. Completely untested.
    * 
    * @param {Route} route The route the player is claiming
    * @param {String} color The color the player is claiming the route as
@@ -34,7 +35,7 @@ export default class Player {
     let colorIndices = [];  //Stores the indices of trainCards that store a card with the proper color
     let wildIndices = [];   //As above, but wilds
 
-    for (i = 0; i < this.trainCards.length; i++) {
+    for (let i = 0; i < this.trainCards.length; i++) {
       if (this.trainCards[i].color === color) {
         colorIndices.push(i);
         continue;
