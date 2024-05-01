@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Home } from './Home.jsx';
+// import { bgImage } from './entry.jpg';
 
 const nameCookieKey = 'tessera_iter_username=';
 const NAME_MAX_LENGTH = 12;
@@ -67,7 +68,7 @@ export const Entry = () => {
       {!goIn && (
         <button
           id="enter"
-          className="m-4 bg-blue-600"
+          className="m-4 bg-amber-600"
           onClick={() => {
             if (inputVal + playerName === '') {
               return;
