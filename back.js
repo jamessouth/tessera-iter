@@ -8,22 +8,9 @@ import { fileURLToPath } from 'url';
 import GameState from './state/GameState.js';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename) + '/react/dist';
+const MAX_PLAYERS = 2;
 
-const dummyUsers = [
-  {
-    user_id: 0,
-    user_info: {
-      name: 'Phil',
-    },
-  },
-  {
-    user_id: 1,
-    user_info: {
-      name: 'Bill',
-    },
-  },
-];
 //from pusher tutorial
 function parseCookies(request) {
   const parsedCookies = {};
@@ -69,14 +56,35 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+const map1 = new Map();
+const map2 = new Map();
+
 app.post('/pusher/auth', (req, res) => {
   const socketId = req.body.socket_id;
+
+  if (map2.get(socketId)) {
+    return;
+  } else if (!map1.get(socketId) && map1.size >= MAX_PLAYERS) {
+    map2.set(socketId, 1);
+
+    return res.status(400).send("game is full");
+  } 
+
   const channel = req.body.channel_name;
-    const cookies = parseCookies(req);
-    const { tessera_iter_username } = cookies;
+  const cookies = parseCookies(req);
+
+  const { tessera_iter_username } = cookies;
   //   if (!user) return res.status(403).send('Invalid username');
 
-  const authResponse = pusher.authorizeChannel(socketId, channel, tessera_iter_username);
+  const authResponse = pusher.authorizeChannel(
+    socketId,
+    channel,
+    tessera_iter_username
+  );
+
+  if (!map1.get(socketId)) {
+    map1.set(socketId, 1);
+  } 
 
   return res.json({
     ...authResponse,
@@ -91,7 +99,7 @@ app.post('/updatestate', async (req, res) => {
   console.log();
   const pusher_resp = await pusher.trigger(
     'private-totalstate-channel',
-    'client-totalstate-event',
+    'totalstate-event',
     baseState
   );
   res.sendStatus(pusher_resp.status);
@@ -116,7 +124,7 @@ app.get('/', (req, res) => {
 });
 
 app.use((req, res, next) => {
-  res.sendStatus(404).send('error: page not found');
+  res.status(404).send('error: page not found');
 });
 
 app.listen(port, () => {

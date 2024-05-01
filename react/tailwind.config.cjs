@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     "./index.html",
     "./src/**/*.jsx",
@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        "entry":"url(/entry.jpg)"
+        "entry_mob_wide":"url(/entryMobWide.jpg)",
+        "entry_mob_tall":"url(/entryMobTall.jpg)"
       }
     },
   },

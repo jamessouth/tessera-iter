@@ -35,7 +35,7 @@ export const Entry = () => {
       value: playerName,
       expiryInDays: 10,
     });
-    setGoIn(true);
+    // setGoIn(true);
 
   }, [playerName]);
 
@@ -49,16 +49,20 @@ export const Entry = () => {
   }, []);
 
   return (
-    <div>
+    <>
+    <h1 className='text-center text-4xl'>Tessera Iter</h1>
+      {playerName !== '' && !goIn && <h2 className='text-2xl text-center'>Welcome back {playerName}!</h2>}
+    <div className='flex portrait:flex-col items-center'>
       {playerName !== '' && goIn && <Home playerName={playerName} />}
-      {playerName !== '' && !goIn && <h2>Welcome back {playerName}!</h2>}
       {!goIn && playerName === '' && (
         <input
           autoComplete="off"
           autoFocus
           id="inputbox"
+          className='h-8'
           onChange={(e) => setInputVal(e.target.value)}
           // ref={inputBox}
+          placeholder='enter name'
           spellCheck="false"
           type="text"
           value={inputVal}
@@ -68,13 +72,14 @@ export const Entry = () => {
       {!goIn && (
         <button
           id="enter"
-          className="m-4 bg-amber-600"
+          className="m-4 bg-amber-600 w-16 h-8 rounded-sm"
           onClick={() => {
             if (inputVal + playerName === '') {
               return;
             } else if (playerName !== '') {
               setGoIn(true);
             } else if (playerName === '' && inputVal !== '') {
+                setGoIn(true);
               setPlayerName(
                 inputVal.replace(/\W/g, '').slice(0, NAME_MAX_LENGTH)
               );
@@ -86,5 +91,6 @@ export const Entry = () => {
         </button>
       )}
     </div>
+    </>
   );
 };
