@@ -5,10 +5,12 @@ import * as path from 'path';
 import Pusher from 'pusher';
 import { fileURLToPath } from 'url';
 // import { produce } from 'immer';
+import { cardRouteColors } from './data/colors.js';
 import GameState from './state/GameState.js';
 
+
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename) + '/react/dist';
+const __dirname = path.dirname(__filename);
 const MAX_PLAYERS = 2;
 
 //from pusher tutorial
@@ -34,10 +36,7 @@ function parseCookies(request) {
 // this.players[3].name = "Von"
 // this.players[4].name = "Skuggi"
 
-const baseState = new GameState([
-  { name: 'Kappi', socketId: 1 },
-  { name: 'Maour', socketId: 2 },
-]);
+const baseState = {};
 
 config(); //dotenv
 
@@ -56,25 +55,23 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const map1 = new Map();
-const map2 = new Map();
+const playerMap = new Map();
+const blockedMap = new Map();
 
 app.post('/pusher/auth', (req, res) => {
   const socketId = req.body.socket_id;
 
-  if (map2.get(socketId)) {
+  if (blockedMap.get(socketId)) {
     return;
-  } else if (!map1.get(socketId) && map1.size >= MAX_PLAYERS) {
-    map2.set(socketId, 1);
-
-    return res.status(400).send("game is full");
-  } 
+  } else if (!playerMap.get(socketId) && playerMap.size >= MAX_PLAYERS) {
+    blockedMap.set(socketId, 1);
+    return res.status(400).send('game is full');
+  }
 
   const channel = req.body.channel_name;
   const cookies = parseCookies(req);
 
   const { tessera_iter_username } = cookies;
-  //   if (!user) return res.status(403).send('Invalid username');
 
   const authResponse = pusher.authorizeChannel(
     socketId,
@@ -82,9 +79,14 @@ app.post('/pusher/auth', (req, res) => {
     tessera_iter_username
   );
 
-  if (!map1.get(socketId)) {
-    map1.set(socketId, 1);
-  } 
+  if (playerMap.size === 0) {
+    baseState = new GameState({ name: tessera_iter_username, socketId: socketId,color: cardRouteColors[playerMap.size]});
+  }
+
+  if (!playerMap.get(socketId)) {
+    playerMap.set(socketId, 1);
+  }
+
 
   return res.json({
     ...authResponse,

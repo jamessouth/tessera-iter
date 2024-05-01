@@ -1,6 +1,6 @@
 const playercolors = ['#5e89ef', '#72d458', '#341f2c', '#cfc93a', '#f65846'];
 
-const colors = [
+const cardRouteColors = [
   'pink',
   'white',
   'blue',
@@ -12,4 +12,4 @@ const colors = [
   'gray',
 ];
 
-export default colors;
+export { cardRouteColors, playercolors };
