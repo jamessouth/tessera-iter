@@ -21,7 +21,7 @@ export const Home = ({ playerName }) => {
   const [player_channel, setPlayer_channel] = useState(null);
   const [totalstate_data, setTotalstate_data] = useState({});
   const [player_data, setPlayer_data] = useState({});
-  const [pusher_data, setPusher_data] = useState({});
+  const [pusher_error, setPusher_error] = useState('');
 
   useEffect(() => {
     setPusher(getPusherClient());
@@ -36,7 +36,7 @@ export const Home = ({ playerName }) => {
   }, [pusher]);
 
   useEffect(() => {
-    if (pusher !== null) {
+    if (pusher !== null && socket_id !== null) {
       setTotalstate_channel(pusher.subscribe('private-totalstate-channel'));
       setPlayer_channel(pusher.subscribe(`private-${socket_id}-channel`));
     }
@@ -44,28 +44,24 @@ export const Home = ({ playerName }) => {
 
   useEffect(() => {
     if (totalstate_channel !== null) {
-      totalstate_channel.bind('client-totalstate-event', (data) => {
+      totalstate_channel.bind('pusher:subscription_error', (err) => {
+        setPusher_error(err.error);
+        console.log(err);
+      });
+
+      totalstate_channel.bind('totalstate-event', (data) => {
         if (data) {
           // document.querySelector('#json').data = data;
           setTotalstate_data(data);
         }
       });
-
-      totalstate_channel.bind('pusher:subscription_count', (data) => {
-        if (data) {
-          console.log(data);
-          setPusher_data(data);
-
-          //   const sub_count = document.createElement('p');
-          //   const player_name = document.createElement('p');
-          //   sub_count.textContent = 'players: '+data.subscription_count;
-          //   player_name.textContent = 'hello '+name;
-          //   document.querySelector('.messages').insertAdjacentElement('afterbegin',sub_count);
-          //   document.querySelector('.messages').insertAdjacentElement('afterbegin',player_name);
-        }
-      });
     }
+
     if (player_channel !== null) {
+      player_channel.bind('pusher:subscription_error', (err) => {
+        setPusher_error(err.error);
+        console.log(err);
+      });
       player_channel.bind('player-event', (data) => {
         if (data) {
           // document.querySelector('#json2').data = data;
@@ -75,106 +71,108 @@ export const Home = ({ playerName }) => {
     }
   }, [player_channel, totalstate_channel]);
 
-  return (
-    <div className="flex flex-col items-center">
-      <div className="h-40 mb-4" id="chat-area">
-        name: {playerName}
-        <div className="messages"></div>
-        <select
-          id="actions"
-          className="mb-8"
-          onChange={(e) => setSelectVal(e.target.value)}
-          //  ref={select}
-          value={selectVal}
-        >
-          <option value="enter name">enter name</option>
-          <option value="draw train card from deck">
-            draw train card from deck
-          </option>
-          <option value="draw train card from table">
-            draw train card from table
-          </option>
-          <option value="discard dest ticket">discard dest ticket</option>
-          <option value="p1">p1</option>
-          <option value="p2">p2</option>
-        </select>
-        <input
-          autoComplete="off"
-          autoFocus
-          className="block border border-black"
-          id="inputbox"
-          onChange={(e) => setInputVal(e.target.value)}
-          // ref={inputBox}
-          spellCheck="false"
-          type="text"
-          value={inputVal}
-        />
-        <div className="flex justify-around">
-          <button
-            id="enter"
-            className="bg-slate-300"
-            onClick={async () => {
-              if (inputVal + selectVal === '') {
-                return;
-              }
-              if (selectVal === 'discard dest ticket' && inputVal === '') {
-                alert('must input index to discard');
-                return;
-              }
-
-              // if (selectVal === 'discard dest ticket' && inputVal !== '') {
-              //   const bod = {
-              //     message:inputVal,
-              //     socket_id,
-              //   };
-
-              //   const resp = await fetch('/returndestticket/' + socket_id, {
-              //     method: 'POST',
-              //     body: JSON.stringify(bod),
-              //     headers: {
-              //       'Content-Type': 'application/json',
-              //     },
-              //   });
-
-              //   //   console.log('bd987', resp);
-              // }
-              console.log(selectVal, inputVal);
-            }}
-            type="button"
+  if (pusher_error === '') {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="h-40 mb-4" id="chat-area">
+          name: {playerName}
+          <div className="messages"></div>
+          <select
+            id="actions"
+            className="mb-8"
+            onChange={(e) => setSelectVal(e.target.value)}
+            //  ref={select}
+            value={selectVal}
           >
-            enter
-          </button>
-          <button
-            onClick={() => {
-              const bod = {
-                book_id: 87,
-                fred: true,
-                wilma: 'bart',
-                socket_id,
-              };
+            <option value="enter name">enter name</option>
+            <option value="draw train card from deck">
+              draw train card from deck
+            </option>
+            <option value="draw train card from table">
+              draw train card from table
+            </option>
+            <option value="discard dest ticket">discard dest ticket</option>
+            <option value="p1">p1</option>
+            <option value="p2">p2</option>
+          </select>
+          <input
+            autoComplete="off"
+            autoFocus
+            className="block border border-black"
+            id="inputbox"
+            onChange={(e) => setInputVal(e.target.value)}
+            // ref={inputBox}
+            spellCheck="false"
+            type="text"
+            value={inputVal}
+          />
+          <div className="flex justify-around">
+            <button
+              id="enter"
+              className="bg-slate-300"
+              onClick={async () => {
+                if (inputVal + selectVal === '') {
+                  return;
+                }
+                if (selectVal === 'discard dest ticket' && inputVal === '') {
+                  alert('must input index to discard');
+                  return;
+                }
 
-              fetch('/updatestate', {
-                method: 'POST',
-                body: JSON.stringify(bod),
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              });
-            }}
-            id="trig"
-            className="bg-slate-300"
-            type="button"
-          >
-            trig
-          </button>
+                // if (selectVal === 'discard dest ticket' && inputVal !== '') {
+                //   const bod = {
+                //     message:inputVal,
+                //     socket_id,
+                //   };
+
+                //   const resp = await fetch('/returndestticket/' + socket_id, {
+                //     method: 'POST',
+                //     body: JSON.stringify(bod),
+                //     headers: {
+                //       'Content-Type': 'application/json',
+                //     },
+                //   });
+
+                //   //   console.log('bd987', resp);
+                // }
+                console.log(selectVal, inputVal);
+              }}
+              type="button"
+            >
+              enter
+            </button>
+            <button
+              onClick={() => {
+                const bod = {
+                  book_id: 87,
+                  fred: true,
+                  wilma: 'bart',
+                  socket_id,
+                };
+
+                fetch('/updatestate', {
+                  method: 'POST',
+                  body: JSON.stringify(bod),
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                });
+              }}
+              id="trig"
+              className="bg-slate-300"
+              type="button"
+            >
+              trig
+            </button>
+          </div>
         </div>
+        <h2>total state</h2>
+        <JsonView className="w-96" src={totalstate_data} />
+        <h2>personal state</h2>
+        <JsonView className="w-96" src={player_data} />
       </div>
-      <h2>total state</h2>
-      <JsonView className="w-96" src={totalstate_data} />
-      <h2>personal state</h2>
-      <JsonView className="w-96" src={player_data} />
-      <h2>pusher state</h2>
-      <JsonView className="w-96" src={pusher_data} />
-    </div>
-  );
+    );
+  } else {
+    return <div className='bg-white'>{pusher_error}</div>;
+  }
 };

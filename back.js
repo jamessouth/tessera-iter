@@ -5,25 +5,14 @@ import * as path from 'path';
 import Pusher from 'pusher';
 import { fileURLToPath } from 'url';
 // import { produce } from 'immer';
+import { cardRouteColors } from './data/colors.js';
 import GameState from './state/GameState.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const MAX_PLAYERS = 2;
 
-const dummyUsers = [
-  {
-    user_id: 0,
-    user_info: {
-      name: 'Phil',
-    },
-  },
-  {
-    user_id: 1,
-    user_info: {
-      name: 'Bill',
-    },
-  },
-];
 //from pusher tutorial
 function parseCookies(request) {
   const parsedCookies = {};
@@ -47,10 +36,7 @@ function parseCookies(request) {
 // this.players[3].name = "Von"
 // this.players[4].name = "Skuggi"
 
-const baseState = new GameState([
-  { name: 'Kappi', socketId: 1 },
-  { name: 'Maour', socketId: 2 },
-]);
+const baseState = {};
 
 config(); //dotenv
 
@@ -69,14 +55,38 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+const playerMap = new Map();
+const blockedMap = new Map();
+
 app.post('/pusher/auth', (req, res) => {
   const socketId = req.body.socket_id;
-  const channel = req.body.channel_name;
-    const cookies = parseCookies(req);
-    const { tessera_iter_username } = cookies;
-  //   if (!user) return res.status(403).send('Invalid username');
 
-  const authResponse = pusher.authorizeChannel(socketId, channel, tessera_iter_username);
+  if (blockedMap.get(socketId)) {
+    return;
+  } else if (!playerMap.get(socketId) && playerMap.size >= MAX_PLAYERS) {
+    blockedMap.set(socketId, 1);
+    return res.status(400).send('game is full');
+  }
+
+  const channel = req.body.channel_name;
+  const cookies = parseCookies(req);
+
+  const { tessera_iter_username } = cookies;
+
+  const authResponse = pusher.authorizeChannel(
+    socketId,
+    channel,
+    tessera_iter_username
+  );
+
+  if (playerMap.size === 0) {
+    baseState = new GameState({ name: tessera_iter_username, socketId: socketId,color: cardRouteColors[playerMap.size]});
+  }
+
+  if (!playerMap.get(socketId)) {
+    playerMap.set(socketId, 1);
+  }
+
 
   return res.json({
     ...authResponse,
@@ -91,7 +101,7 @@ app.post('/updatestate', async (req, res) => {
   console.log();
   const pusher_resp = await pusher.trigger(
     'private-totalstate-channel',
-    'client-totalstate-event',
+    'totalstate-event',
     baseState
   );
   res.sendStatus(pusher_resp.status);
@@ -116,7 +126,7 @@ app.get('/', (req, res) => {
 });
 
 app.use((req, res, next) => {
-  res.sendStatus(404).send('error: page not found');
+  res.status(404).send('error: page not found');
 });
 
 app.listen(port, () => {
