@@ -169,7 +169,7 @@ export default class GameState {
    * @param current Index of the current player
    * @param {*} deck Deck of train cards
    * @param color1 If drawing from the face up cards, color of the first card drawn
-   * @param color2 If drawing from the face up cards, color of the second card drawn
+   * @param color2 If drawing from the face up cards, color of the second card drawn. Must not be allowed to be 'gray'
    * @returns Should return a boolean reflecting whether player's turn is finished
    */
   drawTrainCards(current, color1, color2) {
@@ -179,7 +179,7 @@ export default class GameState {
 
     let firstCardDrawn = false
     let secondCardDrawn = false
-    while(this.trainCardsLeftToDrawThisTurn === 0) {
+    while(this.players[current].trainCardsLeftToDrawThisTurn > 0) {
 
       //empty deck case (rare)
       if (this.trainCardDeck.length === 0 && this.trainCardDiscards.length === 0) {
@@ -189,7 +189,6 @@ export default class GameState {
       } else if (this.trainCardDeck.length === 0) {
         this.trainCardDeck = shuffleArray(this.trainCardDiscards)
       }
-
       if (!firstCardDrawn) {
         if (color1 === 'deck'){
           //if the first card is from the deck
@@ -214,18 +213,19 @@ export default class GameState {
               }
               this.players[current].trainCards.push(currentCard)
               this.trainCardTable.splice(i, 1, this.trainCardDeck.pop())
+              break;
             }
           }
         }
       }
-      
+      console.log(this.players[current].trainCardsLeftToDrawThisTurn)
       
       //if the second card is from the deck
       //FIXME account for empty deck case (rare)
       if (color2 === 'deck') {
-        const card = deck.pop();
+        const card = this.trainCardDeck.pop();
         this.players[current].trainCards.push(card);
-        this.players[current.trainCardsLeftToDrawThisTurn] -= 1
+        this.players[current].trainCardsLeftToDrawThisTurn -= 1
       } else {
         //if the second card is from the face-up
         for (let i = 0; i < 5; i++) {
@@ -239,6 +239,7 @@ export default class GameState {
             }
             this.players[current].trainCards.push(currentCard)
             this.trainCardTable.splice(i, 1, this.trainCardDeck.pop())
+            break;
           }
         }
       }
