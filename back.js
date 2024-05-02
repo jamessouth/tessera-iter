@@ -7,7 +7,6 @@ import { fileURLToPath } from 'url';
 import { playerColors } from './data/colors.js';
 import GameState from './state/GameState.js';
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const MAX_PLAYERS = 5;
@@ -78,14 +77,20 @@ app.post('/pusher/auth', (req, res) => {
     tessera_iter_username
   );
 
+  const player = {
+    name: tessera_iter_username,
+    socketId: socketId,
+    color: playerColors[playerMap.size],
+  };
   if (playerMap.size === 0) {
-    baseState = new GameState({ name: tessera_iter_username, socketId: socketId,color: playerColors[playerMap.size]});
+    baseState = new GameState(player);
+  } else {
+    baseState.addPlayer(player);
   }
 
   if (!playerMap.get(socketId)) {
     playerMap.set(socketId, 1);
   }
-
 
   return res.json({
     ...authResponse,
