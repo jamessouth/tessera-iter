@@ -11,7 +11,7 @@ import GameState from './state/GameState.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const MAX_PLAYERS = 2;
+const MAX_PLAYERS = 5;
 
 //from pusher tutorial
 function parseCookies(request) {

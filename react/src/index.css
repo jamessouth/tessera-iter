@@ -17,3 +17,8 @@
     /* background-color: rgba(0, 0, 0, 0.4); 40% transparency black */
     backdrop-filter: blur(8px); /* Adjust blur radius as needed */
   }
+
+  .bg-offWhite {
+    --tw-bg-opacity: 1;
+    background-color: rgb(222, 212, 205);
+}
