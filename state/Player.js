@@ -1,10 +1,8 @@
-import { immerable } from 'immer';
 import Route from './Route.js';
 import TrainCard from './TrainCard.js';
 
 
 export default class Player {
-  [immerable] = true;
 
   name = '';
   color = '';
@@ -20,6 +18,7 @@ export default class Player {
   constructor(player, trainCards, destTickets) {
     this.name = player.name;
     this.socketId = player.socketId;
+    this.color = player.color;
     this.trainCards.push(...trainCards);
     this.destTickets.push(...destTickets);
     this.color = player.color;

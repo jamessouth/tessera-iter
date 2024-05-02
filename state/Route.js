@@ -1,7 +1,5 @@
-import { immerable } from 'immer';
 
 export default class Route {
-  [immerable] = true;
 
   isSmallGame = true;
   name = '';

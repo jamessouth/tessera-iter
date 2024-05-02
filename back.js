@@ -4,8 +4,7 @@ import express from 'express';
 import * as path from 'path';
 import Pusher from 'pusher';
 import { fileURLToPath } from 'url';
-// import { produce } from 'immer';
-import { cardRouteColors } from './data/colors.js';
+import { playerColors } from './data/colors.js';
 import GameState from './state/GameState.js';
 
 
@@ -80,7 +79,7 @@ app.post('/pusher/auth', (req, res) => {
   );
 
   if (playerMap.size === 0) {
-    baseState = new GameState({ name: tessera_iter_username, socketId: socketId,color: cardRouteColors[playerMap.size]});
+    baseState = new GameState({ name: tessera_iter_username, socketId: socketId,color: playerColors[playerMap.size]});
   }
 
   if (!playerMap.get(socketId)) {

@@ -1,6 +1,4 @@
-import { current, immerable } from 'immer';
 import destTickets from '../data/destTicket/destTickets.js';
-import routes from '../data/route/routes.js';
 import trainCards from '../data/trainCard/trainCards.js';
 import shuffleArray from '../utils/shuffleArray.js';
 import Player from './Player.js';
@@ -10,7 +8,6 @@ const INIT_TRAIN_CARDS = 4;
 const INIT_TABLE_CARDS = 5;
 
 export default class GameState {
-  [immerable] = true;
 
   players = [];
   trainCardDeck = shuffleArray(trainCards);
@@ -20,23 +17,17 @@ export default class GameState {
   isLastRound = false;
   isSmallGame = false;
 
-//   STOPPINGPOINT
-  /**
-   * Initializes the game with the host player
-   * 
-   * @param {*} player A player object {name, socketId, color}
-   */
   constructor(player) {
     //1 player obj with name, socketId, color
     // for (const player of players) {
-    const trainCards = this.trainCardDeck.splice(0, INIT_TRAIN_CARDS);
-    const destTickets = this.destTicketDeck.splice(0, INIT_DEST_TICKETS);
-    this.players.push(new Player(player, trainCards, destTickets));
+  
+
+    this.addPlayer(player)
     // }
     this.trainCardTable.forEach((c) => (c.isOnTable = true));
-    if (this.players.length <= 3) {
-      this.isSmallGame = true;
-    }
+    // if (this.players.length <= 3) {
+    //   this.isSmallGame = true;
+    // }
 
     //placeholder names moved to back.js
 
@@ -49,15 +40,10 @@ export default class GameState {
     // }
   }
 
-  /**
-   * Adds a player to the game
-   * 
-   * @param {*} player A player object {name, socketId, color}
-   */
-  joinPlayer(player) {
+  addPlayer(player) {
     const trainCards = this.trainCardDeck.splice(0, INIT_TRAIN_CARDS);
     const destTickets = this.destTicketDeck.splice(0, INIT_DEST_TICKETS);
-    this.players.push(new Player(player, trainCards, destTickets))
+    this.players.push(new Player(player, trainCards, destTickets));
   }
 
   /**
@@ -101,16 +87,15 @@ export default class GameState {
 
   /**
    * Method for a player to select a route
-   * 
+   *
    * @param {*} current Index of the current player
    * @param {*} r Route the player wants to claim
    * @returns Should return whether the action was valid
    */
   selectRoute(current, r) {
-    
-     //Hardcoded value
-    let route = r   //routes[0] = { rt: 'Vancouver:Calgary', length: 3, c1: 'gray' }
-    let color
+    //Hardcoded value
+    let route = r; //routes[0] = { rt: 'Vancouver:Calgary', length: 3, c1: 'gray' }
+    let color;
     // switch(current) {
     //   case 0:
     //     route = routes[55];   //{ rt: 'Saint Louis:Chicago', length: 2, c1: 'green', c2: 'white' }
@@ -131,7 +116,7 @@ export default class GameState {
     //     break;
     // }
     //select route to claim
-    console.log(route.name)
+    console.log(route.name);
     //(One lane, route claimed) or (Small game, route claimed) or (both routes claimed)
     if (
       (route.taken1 && route.color2 === null) ||
@@ -173,7 +158,9 @@ export default class GameState {
       return;
     }
     //player chooses color before the claim route method. If the route is gray, choose color they're playing before this method
-    this.trainCardDiscards.concat(this.players[current].claimRoute(route, color));
+    this.trainCardDiscards.concat(
+      this.players[current].claimRoute(route, color)
+    );
   }
 
   /**

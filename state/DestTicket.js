@@ -1,7 +1,5 @@
-// import { immerable } from 'immer';
 
 export default class destTicket {
-//   [immerable] = true;
 
   route = '';
   points = 0;
