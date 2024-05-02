@@ -167,9 +167,9 @@ export const Home = ({ playerName }) => {
           </div>
         </div>
         <h2>total state</h2>
-        <JsonView className="w-96" src={totalstate_data} />
+        <JsonView className="w-96 bg-white" src={totalstate_data} />
         <h2>personal state</h2>
-        <JsonView className="w-96" src={player_data} />
+        <JsonView className="w-96 bg-white" src={player_data} />
       </div>
     );
   } else {
