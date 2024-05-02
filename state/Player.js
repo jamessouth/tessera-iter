@@ -1,5 +1,6 @@
 import { immerable } from 'immer';
 import Route from './Route.js';
+import TrainCard from './TrainCard.js';
 
 
 export default class Player {
@@ -27,15 +28,18 @@ export default class Player {
    * Method for a player to claim a route. Currently not recieving user input. Completely untested.
    * 
    * @param {Route} route The route the player is claiming
-   * @param {String} color The color the player is claiming the route as
+   * @param {String} color The color the player is claiming the route as, cannot be gray
    * @returns The cards played to claim the route as an array, to be added to the discard pile; null if the player is unable to claim the route
    */
   claimRoute(route, color) {
-    
+    // this.trainCards.push(new TrainCard('green'))
+    // this.trainCards.push(new TrainCard('gray'))
+
     let colorIndices = [];  //Stores the indices of trainCards that store a card with the proper color
     let wildIndices = [];   //As above, but wilds
 
     for (let i = 0; i < this.trainCards.length; i++) {
+      console.log(this.trainCards[i].color)
       if (this.trainCards[i].color === color) {
         colorIndices.push(i);
         continue;
@@ -51,6 +55,11 @@ export default class Player {
       if (wildIndices.length >= (route.length-colorIndices.length)) {
         console.log("Do you want to use wilds?")
         //(Y/N), get player input
+        //yes
+        useWilds = true
+        //no
+        // console.log("Cannot claim that route.")
+        // return;
       } else {
         console.log("Cannot claim that route.")
         return;
@@ -60,11 +69,12 @@ export default class Player {
     //prevents playing all cards of a color at once if there are excess
     colorIndices.splice(route.length)
     wildIndices.splice(route.length-colorIndices.length)
+    let allIndicesUsed = colorIndices
     //remove cards from hand
-    let playedCards = this.removeCardsFromHand(colorIndices, this.trainCards)
     if (useWilds) {
-      playedCards.concat(this.removeCardsFromHand(wildIndices, this.trainCards))
+      allIndicesUsed = colorIndices.concat(wildIndices)
     }
+    let playedCards = this.removeCardsFromHand(allIndicesUsed, this.trainCards)
     
     //update route
     if ((color === route.color1) || (route.color1 === 'gray')) {
@@ -80,7 +90,11 @@ export default class Player {
     this.score += route.points
     this.numTrains -= route.length
     this.claimedRoutes.push(route)
+    // console.log(this.name + " has " + this.score + " points, " + this.numTrains + " trains, just claimed " + this.claimedRoutes[0].name)
 
+    // for(let i=0; i < playedCards.length; i++){
+    //   console.log(playedCards[i].color)
+    // }
     return playedCards;
   }
 

@@ -23,13 +23,10 @@ export default class GameState {
 //   STOPPINGPOINT
   constructor(player) {
     //1 player obj with name, socketId, color
-    //Give the players their names, need to figure out how to get user input
     // for (const player of players) {
     const trainCards = this.trainCardDeck.splice(0, INIT_TRAIN_CARDS);
     const destTickets = this.destTicketDeck.splice(0, INIT_DEST_TICKETS);
     this.players.push(new Player(player, trainCards, destTickets));
-    //   console.log("Enter player " + (i+1) + "'s name");
-    //   this.players[i].name = input
     // }
     this.trainCardTable.forEach((c) => (c.isOnTable = true));
     if (this.players.length <= 3) {
@@ -45,6 +42,12 @@ export default class GameState {
     // for (let i = 0; i < this.trainCardDeck.length; i++) {
     //   console.log(this.trainCardDeck[i])
     // }
+  }
+
+  joinPlayer(player) {
+    const trainCards = this.trainCardDeck.splice(0, INIT_TRAIN_CARDS);
+    const destTickets = this.destTicketDeck.splice(0, INIT_DEST_TICKETS);
+    this.players.push(new Player(player, trainCards, destTickets))
   }
 
   runGame() {
@@ -72,29 +75,37 @@ export default class GameState {
     this.players[current].numTrains = 0; //TEMP
   }
 
-  selectRoute(current) {
+  /**
+   * Method for a player to select a route
+   * 
+   * @param {*} current Index of the current player
+   * @param {*} r Route the player wants to claim
+   * @returns 
+   */
+  selectRoute(current, r) {
     
      //Hardcoded value
-    let route   //routes[0] = { rt: 'Vancouver:Calgary', length: 3, c1: 'gray' }
+    let route = r   //routes[0] = { rt: 'Vancouver:Calgary', length: 3, c1: 'gray' }
     let color
-    switch(current) {
-      case 0:
-        route = routes[55];
-        color = 'green';
-        break;
-      case 1:
-        route = routes[55];
-        color = 'white';
-        break;
-      case 2:
-        route = routes[55];
-        color = 'white';
-        break;
-      default:
-        route = routes[0];
-        color = 'red';
-        break;
-    }
+    // switch(current) {
+    //   case 0:
+    //     route = routes[55];   //{ rt: 'Saint Louis:Chicago', length: 2, c1: 'green', c2: 'white' }
+    //     console.log(route.length)
+    //     color = 'green';
+    //     break;
+    //   case 1:
+    //     route = routes[55];
+    //     color = 'white';
+    //     break;
+    //   case 2:
+    //     route = routes[55];
+    //     color = 'white';
+    //     break;
+    //   default:
+    //     route = routes[0];
+    //     color = 'red';
+    //     break;
+    // }
     //select route to claim
     console.log(route.name)
     //(One lane, route claimed) or (Small game, route claimed) or (both routes claimed)
@@ -112,7 +123,7 @@ export default class GameState {
       console.log('Which color do you want to play this route as?');
       // get player input
       // color = input color
-      color = 'blue';
+      // color = 'blue';
     } else if (
       route.color1 !== 'gray' &&
       route.color2 !== null &&
@@ -138,6 +149,6 @@ export default class GameState {
       return;
     }
     //player chooses color before the claim route method. If the route is gray, choose color they're playing before this method
-    this.players[current].claimRoute(route, color);
+    this.trainCardDiscards.concat(this.players[current].claimRoute(route, color));
   }
 }

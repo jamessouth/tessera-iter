@@ -81,6 +81,6 @@ let arr = [
   { rt: 'Boston:Montreal', length: 2, c1: 'gray', c2: 'gray' },
 ];
 
-const routes = arr.map((x) => new Route(x.rt, x.pts, x.c1, x.c2));
+const routes = arr.map((x) => new Route(x.rt, x.length, x.c1, x.c2));
 
 export default routes;
