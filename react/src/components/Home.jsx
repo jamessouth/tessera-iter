@@ -73,8 +73,8 @@ export const Home = ({ playerName }) => {
 
   if (pusher_error === '') {
     return (
-      <div className="flex flex-col items-center">
-        <div className="h-40 mb-4" id="chat-area">
+      <div className="flex flex-col items-center bg-opacity-40 bg-black blurred-background">
+        <div className="h-40 mb-4 text-amber-600" id="chat-area">
           name: {playerName}
           <div className="messages"></div>
           <select
@@ -109,7 +109,7 @@ export const Home = ({ playerName }) => {
           <div className="flex justify-around">
             <button
               id="enter"
-              className="bg-slate-300"
+              className="bg-slate-300 p-1"
               onClick={async () => {
                 if (inputVal + selectVal === '') {
                   return;
@@ -159,20 +159,20 @@ export const Home = ({ playerName }) => {
                 });
               }}
               id="trig"
-              className="bg-slate-300"
+              className="bg-slate-300 p-1"
               type="button"
             >
               trig
             </button>
           </div>
         </div>
-        <h2>total state</h2>
-        <JsonView className="w-96 bg-white" src={totalstate_data} />
-        <h2>personal state</h2>
-        <JsonView className="w-96 bg-white" src={player_data} />
+        <h2 className='ParkLaneNF-font bg-gradient-to-t from-orange-400 to-amber-200 text-transparent bg-clip-text'>total state</h2>
+        <JsonView className="w-90 h-72 bg-offWhite overflow-y-scroll" src={totalstate_data} />
+        <h2 className='ParkLaneNF-font bg-gradient-to-t from-orange-400 to-amber-200 text-transparent bg-clip-text'>personal state</h2>
+        <JsonView className="w-90 h-72 bg-offWhite overflow-y-scroll" src={player_data} />
       </div>
     );
   } else {
-    return <div className='bg-white'>{pusher_error}</div>;
+    return <div className='bg-slate-300'>{pusher_error}</div>;
   }
 };
