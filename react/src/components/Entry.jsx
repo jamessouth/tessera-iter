@@ -50,7 +50,9 @@ export const Entry = () => {
 
   return (
     <>
-    <h1 className='text-center text-4xl'>Tessera Iter</h1>
+    <div className='bg-opacity-40 bg-black blurred-background'>
+      <h1 className='ParkLaneNF-font text-center text-6xl bg-gradient-to-t from-orange-400 to-amber-200 text-transparent bg-clip-text'>Tessera Iter</h1>
+    </div>
       {playerName !== '' && !goIn && <h2 className='text-2xl text-center'>Welcome back {playerName}!</h2>}
     <div className='flex portrait:flex-col items-center'>
       {playerName !== '' && goIn && <Home playerName={playerName} />}
@@ -72,7 +74,7 @@ export const Entry = () => {
       {!goIn && (
         <button
           id="enter"
-          className="m-4 bg-amber-600 w-16 h-8 rounded-sm"
+          className="m-4 bg-gradient-to-t from-orange-400 to-amber-200 w-16 h-8 rounded-sm"
           onClick={() => {
             if (inputVal + playerName === '') {
               return;
