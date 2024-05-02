@@ -76,7 +76,7 @@ export default class GameState {
       );
 
       //if(input = 1/Draw train cards)
-      this.drawTrainCards(current, 'deck', 'deck')
+      // this.drawTrainCards(current, 'deck', 'deck')
 
       //if(input = 2/Claim Route)
       // this.selectRoute(current);
@@ -167,9 +167,8 @@ export default class GameState {
    * Method for a player to draw train cards
    * 
    * @param current Index of the current player
-   * @param {*} deck Deck of train cards
-   * @param color1 If drawing from the face up cards, color of the first card drawn
-   * @param color2 If drawing from the face up cards, color of the second card drawn. Must not be allowed to be 'gray'
+   * @param color1 Color of the first card drawn if drawing from the face up cards, 'deck' if drawing from the deck
+   * @param color2 Color of the second card drawn if drawing from the face up cards, 'deck if drawing from the deck. Must not be allowed to be 'gray'
    * @returns Should return a boolean reflecting whether player's turn is finished
    */
   drawTrainCards(current, color1, color2) {
