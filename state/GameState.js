@@ -1,4 +1,4 @@
-import { immerable } from 'immer';
+import { current, immerable } from 'immer';
 import destTickets from '../data/destTicket/destTickets.js';
 import routes from '../data/route/routes.js';
 import trainCards from '../data/trainCard/trainCards.js';
@@ -21,6 +21,11 @@ export default class GameState {
   isSmallGame = false;
 
 //   STOPPINGPOINT
+  /**
+   * Initializes the game with the host player
+   * 
+   * @param {*} player A player object {name, socketId, color}
+   */
   constructor(player) {
     //1 player obj with name, socketId, color
     // for (const player of players) {
@@ -44,12 +49,20 @@ export default class GameState {
     // }
   }
 
+  /**
+   * Adds a player to the game
+   * 
+   * @param {*} player A player object {name, socketId, color}
+   */
   joinPlayer(player) {
     const trainCards = this.trainCardDeck.splice(0, INIT_TRAIN_CARDS);
     const destTickets = this.destTicketDeck.splice(0, INIT_DEST_TICKETS);
     this.players.push(new Player(player, trainCards, destTickets))
   }
 
+  /**
+   * Core game loop method
+   */
   runGame() {
     let current = 0; //index of the current player
 
@@ -63,16 +76,27 @@ export default class GameState {
     }
   }
 
+  /**
+   * Method from which a player chooses which action to take
+   * 
+   * @param {*} current Index of the current player
+   */
   playTurn(current) {
     console.log('\n\nIt is ' + this.players[current].name + "'s turn.");
-    console.log(
-      '[1] Draw train cards\n[2] Claim a route\n[3] Draw destination cards\n'
-    );
+    this.players[current].isTurn = true
+    while(this.players[current].isTurn) {
+      console.log(
+        '[1] Draw train cards\n[2] Claim a route\n[3] Draw destination cards\n'
+      );
 
-    //if(input = 2/Claim Route)
-    this.selectRoute(current);
+      //if(input = 1/Draw train cards)
+      this.drawTrainCards(current, 'deck', 'deck')
 
-    this.players[current].numTrains = 0; //TEMP
+      //if(input = 2/Claim Route)
+      // this.selectRoute(current);
+
+      this.players[current].numTrains = 0; //TEMP
+    }
   }
 
   /**
@@ -80,7 +104,7 @@ export default class GameState {
    * 
    * @param {*} current Index of the current player
    * @param {*} r Route the player wants to claim
-   * @returns 
+   * @returns Should return whether the action was valid
    */
   selectRoute(current, r) {
     
@@ -151,4 +175,89 @@ export default class GameState {
     //player chooses color before the claim route method. If the route is gray, choose color they're playing before this method
     this.trainCardDiscards.concat(this.players[current].claimRoute(route, color));
   }
+
+  /**
+   * Method for a player to draw train cards
+   * 
+   * @param current Index of the current player
+   * @param {*} deck Deck of train cards
+   * @param color1 If drawing from the face up cards, color of the first card drawn
+   * @param color2 If drawing from the face up cards, color of the second card drawn
+   * @returns Should return a boolean reflecting whether player's turn is finished
+   */
+  drawTrainCards(current, color1, color2) {
+    if (!this.players[current].isTurn) {
+      return;
+    }
+
+    let firstCardDrawn = false
+    let secondCardDrawn = false
+    while(this.trainCardsLeftToDrawThisTurn === 0) {
+
+      //empty deck case (rare)
+      if (this.trainCardDeck.length === 0 && this.trainCardDiscards.length === 0) {
+        console.log("empty deck");
+        //need to force the player to take another action
+        return false;
+      } else if (this.trainCardDeck.length === 0) {
+        this.trainCardDeck = shuffleArray(this.trainCardDiscards)
+      }
+
+      if (!firstCardDrawn) {
+        if (color1 === 'deck'){
+          //if the first card is from the deck
+          const card = this.trainCardDeck.pop();
+          this.players[current].trainCards.push(card);
+          this.players[current].trainCardsLeftToDrawThisTurn -= 1
+          firstCardDrawn = true
+        } else {
+          //if the first card is from the face-up
+          for (let i = 0; i < 5; i++) {
+            let currentCard = this.trainCardTable[i]
+            if (currentCard.color === color1) {
+              if (currentCard.color === 'gray') {
+                this.players[current].trainCardsLeftToDrawThisTurn -= 2
+                this.players[current].trainCards.push(currentCard)
+                this.trainCardTable.splice(i, 1, this.trainCardDeck.pop())
+                this.players[current].isTurn = false;
+                return true;
+              } else {
+                this.players[current].trainCardsLeftToDrawThisTurn -= 1
+                firstCardDrawn = true
+              }
+              this.players[current].trainCards.push(currentCard)
+              this.trainCardTable.splice(i, 1, this.trainCardDeck.pop())
+            }
+          }
+        }
+      }
+      
+      
+      //if the second card is from the deck
+      //FIXME account for empty deck case (rare)
+      if (color2 === 'deck') {
+        const card = deck.pop();
+        this.players[current].trainCards.push(card);
+        this.players[current.trainCardsLeftToDrawThisTurn] -= 1
+      } else {
+        //if the second card is from the face-up
+        for (let i = 0; i < 5; i++) {
+          let currentCard = this.trainCardTable[i]
+          if (currentCard.color === color2) {
+            if (currentCard.color === 'gray') {
+              console.log("Cannot claim a face-up wild as your second card!")
+              return false;
+            } else {
+              this.players[current].trainCardsLeftToDrawThisTurn -= 1
+            }
+            this.players[current].trainCards.push(currentCard)
+            this.trainCardTable.splice(i, 1, this.trainCardDeck.pop())
+          }
+        }
+      }
+    }
+    this.players[current].isTurn = false
+  }
+
+
 }

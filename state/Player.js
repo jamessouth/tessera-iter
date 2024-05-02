@@ -22,6 +22,7 @@ export default class Player {
     this.socketId = player.socketId;
     this.trainCards.push(...trainCards);
     this.destTickets.push(...destTickets);
+    this.color = player.color;
   }
 
   /**
@@ -124,41 +125,11 @@ export default class Player {
         }
     });
 
+    this.isTurn = false
     return toDiscard;
 }
 
-  //   drawTrainCard(deck) {
-  //     if (!this.isTurn) {
-  //       return;
-  //     }
-
-  //     if (this.trainCardsLeftToDrawThisTurn === 0) {
-  //       return;
-  //     }
-
-  //     //empty deck case (rare)
-  //     if (deck.length === 0) {
-  //       console.log("empty deck");
-  //       //need to force the player to take another action
-  //       return;
-  //     }
-
-  //     const card = deck.pop();
-  //     this.trainCards.push(card);
-
-  //     if (
-  //       card.isFaceUp &&
-  //       card.color === "gray" &&
-  //       this.trainCardsLeftToDrawThisTurn === 1
-  //     ) {
-  //       return;
-  //     } else if (card.isFaceUp && card.color === "gray") {
-  //       this.trainCardsLeftToDrawThisTurn -= 2;
-  //     } else {
-  //       this.trainCardsLeftToDrawThisTurn -= 1;
-  //     }
-  //   }
-
+    
   //   drawdestTicket(deck: destTicket[]) {
   //     if (!this.isTurn) {
   //       return;

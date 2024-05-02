@@ -36,7 +36,7 @@ function parseCookies(request) {
 // this.players[3].name = "Von"
 // this.players[4].name = "Skuggi"
 
-const baseState = {};
+let baseState = {};
 
 config(); //dotenv
 
