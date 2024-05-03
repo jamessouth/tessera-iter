@@ -177,7 +177,7 @@ export default class GameState {
     }
 
     let firstCardDrawn = false
-    let secondCardDrawn = false
+    // let secondCardDrawn = false
     while(this.players[current].trainCardsLeftToDrawThisTurn > 0) {
 
       //empty deck case (rare)
