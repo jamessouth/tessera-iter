@@ -6,11 +6,12 @@ LABEL maintainer="danny brock kai stephen"
 
 WORKDIR /
 
-COPY package.json package-lock.json .
+COPY package.json package-lock.json ./
 
 RUN NODE_ENV=production npm ci
 
 COPY ./dist ./dist
+COPY . .
 
 EXPOSE 8080
 

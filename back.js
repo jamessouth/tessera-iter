@@ -47,7 +47,7 @@ const pusher = new Pusher({
 });
 
 const app = express();
-const port = 3000;
+const port = 8080;
 app.use(express.static('dist'));
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
