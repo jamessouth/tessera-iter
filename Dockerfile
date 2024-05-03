@@ -10,7 +10,6 @@ COPY package.json package-lock.json ./
 
 RUN NODE_ENV=production npm ci
 
-COPY ./dist ./dist
 COPY . .
 
 EXPOSE 8080
