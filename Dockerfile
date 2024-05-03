@@ -6,11 +6,11 @@ LABEL maintainer="danny brock kai stephen"
 
 WORKDIR /
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY package.json package-lock.json .
 
-RUN npm i
+RUN NODE_ENV=production npm ci
 
-COPY . .
+COPY ./dist ./dist
 
 EXPOSE 8080
 
